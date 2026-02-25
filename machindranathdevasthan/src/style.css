@@ -49,6 +49,10 @@
 .w90{
     width: 90%;
 }
+
+.minHeight100vh{
+    min-height: 70vh;
+}
 .devasthanName{
     font-size: 25px;
     font-weight: bold;
@@ -375,4 +379,46 @@
 .contactLinks{
     display: flex;
     align-items: center;
+}
+
+.videoFrame{
+    width: 50%;
+    border-radius: 18px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    margin-left: 20px;
+}
+
+.inputField{
+    width: 100%;
+    margin: 10px;
+}
+
+.donationFormContainer{
+    width: 40%;
+    margin: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #fbdaac;
+    border-radius: 18px;
+}
+
+
+.donationActions{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px){
+    .videoFrame{
+        width: 92%;
+    }
+
+    .donationActions{
+        flex-wrap: wrap;
+    }
 }

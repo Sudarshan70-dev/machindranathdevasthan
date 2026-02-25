@@ -3,9 +3,12 @@ import "../style.css";
 import { useTranslation } from "react-i18next";
 import Tab from '@mui/material/Tab';
 import Logo from "../assests/Logo.png";
+import { useNavigate } from "react-router-dom";
+
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   return (
     <nav className="navBar headerColor">
       <div className="langaugeSelector">
@@ -23,10 +26,10 @@ const Navbar = () => {
           </div>
         
           <div className="navigationTabs navTitle">
-            <Tab sx={{fontWeight:"700", color:"#FF3300"}} label={t("home")} value="1" />
-            <Tab sx={{fontWeight:"700", color:"#FF3300"}} label={t("about")} value="2" />
-            <Tab sx={{fontWeight:"700", color:"#FF3300"}} label={t("donation")} value="3" />
-            <Tab sx={{fontWeight:"700", color:"#FF3300"}} label={t("sevaBooking")} value="4" />
+            <Tab sx={{fontWeight:"700", color:"#FF3300"}} label={t("home")} value="1" onClick={()=>navigate("/")} />
+            <Tab sx={{fontWeight:"700", color:"#FF3300"}} label={t("about")} value="2" onClick={()=>navigate("/about")}/>
+            <Tab sx={{fontWeight:"700", color:"#FF3300"}} label={t("donation")} value="3" onClick={()=>navigate("/donation")}/>
+            <Tab sx={{fontWeight:"700", color:"#FF3300"}} label={t("sevaBooking")} value="4" onClick={()=>navigate("/volunteerRegistration")} />
             <Tab sx={{fontWeight:"700", color:"#FF3300"}} label={t("login")} value="5" />
 
           </div>

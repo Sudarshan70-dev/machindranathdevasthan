@@ -44,7 +44,9 @@ export default function MultiActionAreaCard(props) {
         </CardContent>
       </CardActionArea>
       <CardActions sx={{ justifyContent: "center", pb: 2 }}>
-       <MuiButton>{buttonName}</MuiButton>
+       <MuiButton 
+       onClick={props.onButtonClick}
+      >{buttonName}</MuiButton>
       </CardActions>
     </Card>
   );
