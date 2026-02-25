@@ -7,7 +7,7 @@ const MuiTextField = (props) => {
       id={props.id}
       label={props.label}
       variant="outlined"
-      type="text"
+      type={props.type || "text"}
       value={props.value}
       onChange={props.onChange}
       required

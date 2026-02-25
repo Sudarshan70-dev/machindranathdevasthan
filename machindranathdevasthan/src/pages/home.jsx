@@ -55,12 +55,16 @@ const Home = () => {
               <img src={Img1} alt="About Temple" className="aboutTempleImg" />
             </div>
             <div className="aboutTempleCardContent">
-              <p className="textColor">{t("aboutTempleContent1")}</p>
-              <p className="textColor">{t("aboutTempleContent2")}</p>
+             <p className="textColor">{t("aboutMandirText1")}</p>
+                <p className="textColor">{t("aboutMandirText2")}</p>
+                <p className="textColor">{t("aboutMandirText3")}</p>
+                <p className="textColor">{t("aboutMandirText4")}</p>
             </div>
           </div>
           <div className="flexEnd">
-            <MuiButton>{t("readMore")}</MuiButton>
+            <MuiButton
+              onClick={()=>navigate("/about")}
+            >{t("readMore")}</MuiButton>
           </div>
         </div>
 
@@ -186,15 +190,33 @@ const Home = () => {
                     <EmailIcon /> shrimachindranathdevasthan@gmail.com
                   </a>
                 </div>
-                <div>
+                <div className="centerDiv">
+                  <div className="trusteeContactDiv">
+                    
+                  <div>
+                    {t("presidentName")}
+                  </div>
+                  <div>
+                    {t("president")}
+                  </div>
                   <a className="contactLinks" href="tel:+919423116214">
                     <LocalPhoneIcon />
                     +91 9423116214
                   </a>
+                  </div>
+                  <div className="trusteeContactDiv">
+
+                  <div>
+                    {t("secretaryName")}
+                  </div>
+                  <div>
+                    {t("secretary")}
+                  </div>
                   <a className="contactLinks" href="tel:+917798750075">
                     <LocalPhoneIcon />
                     +91 7798750075
                   </a>
+                  </div>
                 </div>
                 <div>
                   <a

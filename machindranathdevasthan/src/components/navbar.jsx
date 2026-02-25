@@ -30,7 +30,7 @@ const Navbar = () => {
             <Tab sx={{fontWeight:"700", color:"#FF3300"}} label={t("about")} value="2" onClick={()=>navigate("/about")}/>
             <Tab sx={{fontWeight:"700", color:"#FF3300"}} label={t("donation")} value="3" onClick={()=>navigate("/donation")}/>
             <Tab sx={{fontWeight:"700", color:"#FF3300"}} label={t("sevaBooking")} value="4" onClick={()=>navigate("/volunteerRegistration")} />
-            <Tab sx={{fontWeight:"700", color:"#FF3300"}} label={t("login")} value="5" />
+            <Tab sx={{fontWeight:"700", color:"#FF3300"}} label={t("login")} value="5" onClick={()=>navigate("/trustee-login")} />
 
           </div>
         </div>

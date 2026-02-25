@@ -37,6 +37,10 @@
     font-weight: bold;
 }
 
+.boaldText{
+    font-weight: bold;
+}
+
 .flex{
     display: flex;
 }
@@ -208,7 +212,8 @@
     background-position: center;
     border-radius: 18px;
     box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-    padding: 20px 10px;
+    padding: 20px 20px;
+    margin-bottom: 10px;
 }
 
 .aboutTempleImgCard{
@@ -360,7 +365,7 @@
 
 .contactContainer{
     width: 40%;
-    height: 200px;
+    height: max-content;
     background-color: #fbdaac;
     border-radius: 18px;
     box-shadow: 0 15px 40px rgba(0,0,0,0.15);
@@ -413,6 +418,33 @@
     margin-top: 20px;
 }
 
+.trusteeAuthCard{
+    width: 40%;
+    margin: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #fbdaac;
+    border-radius: 18px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.trusteeAuthSwitch{
+    margin-top: 12px;
+    color: #7F1D1D;
+}
+
+.trusteeAuthLink{
+    color: #FF7700;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.trusteeAuthLink:hover{
+    text-decoration: underline;
+}
+
 @media (max-width: 768px){
     .videoFrame{
         width: 92%;
@@ -421,4 +453,12 @@
     .donationActions{
         flex-wrap: wrap;
     }
+
+    .trusteeAuthCard{
+        width: 92%;
+    }
+}
+
+.trusteeContactDiv{
+    margin: 10px;
 }
