@@ -35,14 +35,18 @@ const Home = () => {
         <ImageSlider></ImageSlider>
         <div className="buttons">
           <MuiButton
-          id="sliderVipPassButton"
-          onClick={()=>navigate("/vipPass")}
-          >{t("vipPass")}</MuiButton>
+            id="sliderVipPassButton"
+            onClick={() => navigate("/vipPass")}
+          >
+            {t("vipPass")}
+          </MuiButton>
           <MuiButton>{t("liveDarshan")}</MuiButton>
           <MuiButton
-          id="sliderDonationButton"
-          onClick={()=>navigate("/donation")}
-          >{t("donation")}</MuiButton>
+            id="sliderDonationButton"
+            onClick={() => navigate("/donation")}
+          >
+            {t("donation")}
+          </MuiButton>
         </div>
 
         {/* About Temple Card */}
@@ -55,16 +59,16 @@ const Home = () => {
               <img src={Img1} alt="About Temple" className="aboutTempleImg" />
             </div>
             <div className="aboutTempleCardContent">
-             <p className="textColor">{t("aboutMandirText1")}</p>
-                <p className="textColor">{t("aboutMandirText2")}</p>
-                <p className="textColor">{t("aboutMandirText3")}</p>
-                <p className="textColor">{t("aboutMandirText4")}</p>
+              <p className="textColor">{t("aboutMandirText1")}</p>
+              <p className="textColor">{t("aboutMandirText2")}</p>
+              <p className="textColor">{t("aboutMandirText3")}</p>
+              <p className="textColor">{t("aboutMandirText4")}</p>
             </div>
           </div>
           <div className="flexEnd">
-            <MuiButton
-              onClick={()=>navigate("/about")}
-            >{t("readMore")}</MuiButton>
+            <MuiButton onClick={() => navigate("/about")}>
+              {t("readMore")}
+            </MuiButton>
           </div>
         </div>
 
@@ -84,7 +88,7 @@ const Home = () => {
                     title={t("donationForMandir")}
                     description={t("stoneForMandir")}
                     buttonText={t("contribute")}
-                    onButtonClick={()=>navigate("/donationForStone")}
+                    onButtonClick={() => navigate("/donationForStone")}
                   ></MuiCard>
                 </div>
               </Grid>
@@ -95,7 +99,7 @@ const Home = () => {
                     title={t("vipPass")}
                     description={t("vipPassText")}
                     buttonText={t("getVipPass")}
-                    onButtonClick={()=>navigate("/vipPass")}
+                    onButtonClick={() => navigate("/vipPass")}
                   ></MuiCard>
                 </div>
               </Grid>
@@ -116,7 +120,7 @@ const Home = () => {
                     title={t("sevaBooking")}
                     description={t("sevaBookingText")}
                     buttonText={t("bookNow")}
-                    onButtonClick={()=>navigate("/volunteerRegistration")} 
+                    onButtonClick={() => navigate("/volunteerRegistration")}
                   ></MuiCard>
                 </div>
               </Grid>
@@ -190,34 +194,21 @@ const Home = () => {
                     <EmailIcon /> shrimachindranathdevasthan@gmail.com
                   </a>
                 </div>
-                <div className="centerDiv">
-                  <div className="trusteeContactDiv">
-                    
-                  <div>
-                    {t("presidentName")}
-                  </div>
-                  <div>
-                    {t("president")}
-                  </div>
-                  <a className="contactLinks" href="tel:+919423116214">
-                    <LocalPhoneIcon />
-                    +91 9423116214
-                  </a>
-                  </div>
-                  <div className="trusteeContactDiv">
+             
 
-                  <div>
-                    {t("secretaryName")}
-                  </div>
-                  <div>
-                    {t("secretary")}
-                  </div>
-                  <a className="contactLinks" href="tel:+917798750075">
-                    <LocalPhoneIcon />
-                    +91 7798750075
-                  </a>
-                  </div>
-                </div>
+                <div>{t("presidentName")}</div>
+                <div>{t("president")}</div>
+                <a className="contactLinks" href="tel:+919423116214">
+                  <LocalPhoneIcon />
+                  +91 9423116214
+                </a>
+
+                <div>{t("secretaryName")}</div>
+                <div>{t("secretary")}</div>
+                <a className="contactLinks" href="tel:+917798750075">
+                  <LocalPhoneIcon />
+                  +91 7798750075
+                </a>
                 <div>
                   <a
                     href="https://www.instagram.com/macchindranath_devasthan?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
@@ -227,6 +218,7 @@ const Home = () => {
                   </a>
                 </div>
               </div>
+              
             </div>
           </div>
         </div>

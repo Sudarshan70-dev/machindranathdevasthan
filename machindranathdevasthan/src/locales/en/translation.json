@@ -144,7 +144,74 @@
   "ambulance":"Free Ambulance Service:",
   "ambulanceText1":"Understanding the needs of the surrounding rural region, the Temple Trust also operates a free ambulance service for emergency situations.",
   "ambulanceText2":"Assists devotees and local villagers during medical emergencies, Ensures timely transportation to hospitals, Reflects the temple’s commitment to humanitarian service.",
-  "ambulanceText3":"The ambulance service stands as a symbol of compassionate outreach, extending spiritual care into practical service."
+  "ambulanceText3":"The ambulance service stands as a symbol of compassionate outreach, extending spiritual care into practical service.",
+
+  "footerAboutTempleText" : "Shri Kshetra Machindranath Devasthan Trust is dedicated to preserving the sacred Nath tradition and serving society through Seva.",
+  "copyright":" Machindranath Mandir Trust. All Rights Reserved. Website maintained by the Temple Trust.",
+  "privacyPolicy" :"Privacy Policy",
+  "termsCondition" : "Terms & Conditions",
+  "refundPolicy" : "Refund Policy",
+
+  "lastUpdate" : "Last Updated: 27/02/2026",
+  "termsText1" : "Welcome to the official website of Shri Kshetra Machindranath Devasthan, a registered charitable trust (Registration No: A.1276), located at Sawaragaon, Ashti, Dist. Beed, Maharashtra, 414203.",
+  "termsText2" : "By using this website or making a donation/payment, you agree to the following terms:",
+  
+  "aboutTrustTitle" : "About the Trust",
+  "aboutTrustText1" : "This website is owned and managed by Shri Kshetra Machindranath Devasthan, a legally registered charitable and religious trust in India.",
+  "aboutTrustText2" : "The Trust works for religious activities, temple maintenance, cultural programs, and charitable purposes.",
+  
+  "donationsTitle" : "Donations",
+  "donationsText1" : "1. All donations made through this website are voluntary.",
+  "donationsText2" : "2. Donations are used strictly for temple, religious, and charitable purposes.",
+  "donationsText3" : "3. Payments are securely processed through Razorpay.",
+  "donationsText4" : "4. We do not store your card, net banking, or UPI details.",
+  
+  "eventVipPassTitle" : "Event / VIP Pass Payments",
+  "eventVipPassText1" : "1. Payments made for VIP passes or special events are subject to confirmation.",
+  "eventVipPassText2" : "2. Entry or services will be provided only after successful payment.",
+  "eventVipPassText3" : "3. The Trust reserves the right to reschedule events in case of unavoidable circumstances.",
+  
+  "userResponcibilityTitle" : "User Responsibility",
+  "userResponcibilityText1" : "You agree to:",
+  "userResponcibilityText2" : "Provide correct personal details.",
+  "userResponcibilityText3" : "Not misuse the website.",
+  "userResponcibilityText4" : "Not attempt unauthorized access to the system.",
+
+  "limitionOfLibilityTitle" : "Limitation of Liability",
+  "limitionOfLibilityText1" : "The Trust is not responsible for:",
+  "limitionOfLibilityText2" : "Bank/payment gateway failures",
+  "limitionOfLibilityText3" : "Transaction delays due to technical issues",
+  "limitionOfLibilityText4" : "Incorrect details entered by the user",
+  "governingLaw" : "Governing Law",
+  "governingLawText" : "These terms are governed by the laws of India.",
+
+  "refundPolicyText1" : "Thank you for supporting Shri Kshetra Machindranath Devasthan",
+  "refundPolicyText2" : "All donations are non-refundable.",
+  "refundPolicyText3" : "All VIP Passes are non-refundable.",
+  "refundPolicyText4" : "Donations once made cannot be cancelled.",
+  "refundPolicyText5" : "In case of duplicate payment due to technical error, please contact us within 7 days for review.",
+
+  "failedTransactionTitle" : "Failed Transactions",
+  "failedTransactionText1" : "If your bank account is debited but payment fails:",
+  "failedTransactionText2" : "The amount is usually auto-reversed within 5–7 working days.",
+  "failedTransactionText3" : "If not, please contact your bank first and then inform us.",
+
+  "privacyPolicyText" : "Shri Kshetra Machindranath Devasthan respects your privacy and is committed to protecting your personal information.",
+  "informationCollectTitle" : "Information We Collect",
+  "informationCollectText1" : "When you donate or register, we may collect: Name, Phone Number, Address (if required), Aadhar Number (if required), Transaction details",
+  "informationUseTitle" : "How We Use Information",
+  "informationUseText1" : "We use your information to:Process donations, Issue receipts, Maintain financial records, Contact you regarding your donation, Comply with legal requirements",
+
+  "paymentSecurityTitle" : "Payment Security",
+  "paymentSecurityText1" : "All payments are processed securely through Razorpay.",
+  "paymentSecurityText1" : "We do not store debit/credit card or UPI credentials.",
+
+  "dataProtactionTitle" : "Data Protection",
+  "dataProtactionText1" : "Your information is stored securely and is not sold or shared with third parties, except:",
+  "dataProtactionText2" : "Payment gateway providers",
+  "dataProtactionText3" : "Government authorities if legally required"
+
+
 
 
 

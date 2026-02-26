@@ -19,44 +19,44 @@ export default function EventTable() {
         {
           title: t("paushyaAmavasya"),
           description: t("paushyaAmavasyaText"),
-          fromDate: "2024-01-25",
-          toDate: "2024-01-25"
+          fromDate: "2026-01-18",
+          toDate: "2026-01-18"
         },
         {
           title: t("falgunAmavasya"),
           description: t("falgunAmavasyaText"),
-          fromDate: "2024-02-24",
-          toDate: "2024-02-24"
+          fromDate: "2026-03-18",
+          toDate: "2026-03-19"
         },
         {
           title: t("rangPanchami"),
           description: t("rangPanchamiText"),
-          fromDate: "2024-03-15",
-          toDate: "2024-03-15"
+          fromDate: "2026-03-08",
+          toDate: "2024-03-08"
         },
         {
           title: t("rushiPanchami"),
           description: t("rushiPanchamiText"),
-          fromDate: "2024-03-20",
-          toDate: "2024-03-20"
+          fromDate: "2026-09-15",
+          toDate: "2026-09-15"
         },
         {
           title: t("dattaJayanti"),
-          description: t("dattaJayantiText"),
+          description: t(""),
           fromDate: "2024-04-15",
           toDate: "2024-04-15"
         },
         {
           title: t("guruPurnima"),
-          description: t("guruPurnimaText"),
-          fromDate: "2024-04-20",
-          toDate: "2024-04-20"
+          description: t(""),
+          fromDate: "2026-07-29",
+          toDate: "2026-07-29"
         },
         {
           title: t("monthlyAmavasya"),
           description: t("monthlyAmavasyaText"),
-          fromDate: "2024-05-01",
-          toDate: "2024-05-01"
+          fromDate: "",
+          toDate: ""
         }
       ];
 
