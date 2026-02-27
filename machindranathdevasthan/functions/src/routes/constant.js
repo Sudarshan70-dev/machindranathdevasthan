@@ -1,3 +1,6 @@
+/* eslint-disable indent */
+/* eslint-disable object-curly-spacing */
+/* eslint-disable key-spacing */
 export const ListOfStones = [
   { name: "शिखर", amount: 5100000 },
   { name: "जाळी खिडकी", amount: 51000 },
@@ -32,5 +35,10 @@ export const DataBaseConstant = {
   age:"Age",
   vipPassAmt : 200,
   createDate : "created_date",
+};
+
+export const CollectionName = {
+    volunteers: "volunteers",
+    donation : "donation",
+
 }
-  

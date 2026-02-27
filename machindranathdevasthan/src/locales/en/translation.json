@@ -209,7 +209,10 @@
   "dataProtactionTitle" : "Data Protection",
   "dataProtactionText1" : "Your information is stored securely and is not sold or shared with third parties, except:",
   "dataProtactionText2" : "Payment gateway providers",
-  "dataProtactionText3" : "Government authorities if legally required"
+  "dataProtactionText3" : "Government authorities if legally required",
+
+  "commingSoon1" : "This Service Will Be Available Soon, We are currently working on this feature to serve you better. It will be available shortly.",
+  "commingSoon2" : "For now, you can enroll for Volunteer Seva and become a part of our service initiatives.Thank you for your patience and support."
 
 
 
