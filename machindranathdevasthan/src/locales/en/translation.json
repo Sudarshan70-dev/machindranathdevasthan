@@ -212,9 +212,13 @@
   "dataProtactionText3" : "Government authorities if legally required",
 
   "commingSoon1" : "This Service Will Be Available Soon, We are currently working on this feature to serve you better. It will be available shortly.",
-  "commingSoon2" : "For now, you can enroll for Volunteer Seva and become a part of our service initiatives.Thank you for your patience and support."
+  "commingSoon2" : "For now, you can enroll for Volunteer Seva and become a part of our service initiatives.Thank you for your patience and support.",
 
-
+  "volunteerSuccessToast" :"Volunteer registered successfully",
+  "volunteerErrorToast1" :"Volunteer not registered",
+  "volunteerErrorToast2" :"All fields must be fill",
+  "volunteerErrorToast3" :"Please enter valid Mobile number",
+  "volunteerErrorToast4" :"Please enter valid Aadhar number"
 
 
 

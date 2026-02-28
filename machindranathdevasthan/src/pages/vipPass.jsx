@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "../components/muiTextfiled";
 import Button from "../components/muiButton";
 import "../style.css";
@@ -16,6 +16,12 @@ const VipPass = () => {
      const [address, setAddress] = useState("");
      const [age, setAge] = useState(0);
   const [errors, setErrors] = useState({});
+
+
+  /**This will be remove after payment gateway intigreat */
+  useEffect(()=>{
+    alert(t("commingSoon1"));    
+  },[])
 
   // 🔥 Handle Input Change
  
@@ -94,7 +100,7 @@ const VipPass = () => {
 
     // 👉 Call your database function here
 
-    alert("VIP Pass Registered Successfully!");
+    alert(t("commingSoon1"));
 
     handleCancel();
   };
