@@ -18,6 +18,7 @@ import VipPassLogo from "../assests/vipPassLogo.png";
 import MandirSeva from "../assests/mandirSeva.png";
 import PujaLogo from "../assests/pujaLogo.png";
 import { useNavigate } from "react-router-dom";
+import FacebookIcon from '@mui/icons-material/Facebook';
 
 const Home = () => {
   const { t } = useTranslation();
@@ -215,6 +216,13 @@ const Home = () => {
                     className="contactLinks"
                   >
                     <InstagramIcon /> @machindra_nath_dewasthan
+                  </a>
+                  <a
+                    href="https://www.facebook.com/profile.php?id=61581149219247&ref=PROFILE_EDIT_xav_ig_profile_page_web#"
+                    className="contactLinks"
+                  >
+                    <FacebookIcon /> @श्री क्षेत्र मच्छिंद्रनाथ देवस्थान सावरगाव
+
                   </a>
                 </div>
               </div>
