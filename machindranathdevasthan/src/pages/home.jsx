@@ -211,10 +211,10 @@ const Home = () => {
                 </a>
                 <div>
                   <a
-                    href="https://www.instagram.com/macchindranath_devasthan?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                    href="https://www.instagram.com/machindra_nath_dewasthan?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                     className="contactLinks"
                   >
-                    <InstagramIcon /> @macchindranath_devasthan
+                    <InstagramIcon /> @machindra_nath_dewasthan
                   </a>
                 </div>
               </div>
