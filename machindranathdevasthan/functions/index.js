@@ -10,8 +10,6 @@
  */
 
 const {setGlobalOptions} = require("firebase-functions");
-const {onRequest} = require("firebase-functions/https");
-const logger = require("firebase-functions/logger");
 
 // For cost control, you can set the maximum number of containers that can be
 // running at the same time. This helps mitigate the impact of unexpected
@@ -25,30 +23,19 @@ const logger = require("firebase-functions/logger");
 // this will be the maximum concurrent request count.
 setGlobalOptions({ maxInstances: 10 });
 
-const {onDocumentCreated} = require("firebase-functions/firestore");
-
-// The Firebase Admin SDK to access Firestore.
-// const {initializeApp} = require("firebase-admin/app");
-// const {getFirestore} = require("firebase-admin/firestore");
-const functions = require("firebase-functions");
+const functions = require("firebase-functions/v1");
 const admin = require("firebase-admin");
 const cors = require("cors")({ origin: true });
 admin.initializeApp();
 
-// initializeApp();
 
 // Create and deploy your first functions
 // https://firebase.google.com/docs/functions/get-started
 
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+const volunteerRoutes = require("./src/routes/volunteer");
 
-const volunteerRoutes = require("./routes/volunteer");
-
-exports.submitVolunteerForm = functions
+exports.registerVolunteer = functions
   .region("asia-south1")
   .https.onRequest((req, res) => {
-    cors(req, res, () => volunteerRoutes.submitVolunteer(req, res));
+    cors(req, res, () => volunteerRoutes.registerVolunteer(req, res));
   });

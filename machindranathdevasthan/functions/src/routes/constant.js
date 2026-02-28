@@ -41,4 +41,4 @@ export const CollectionName = {
     volunteers: "volunteers",
     donation : "donation",
 
-}
+};
