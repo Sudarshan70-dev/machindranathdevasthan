@@ -6,13 +6,15 @@ import Img3 from "../assests/img3.jpg";
 import Img4 from "../assests/img4.jpg";
 import Img5 from "../assests/img5.jpg";
 import Img6 from "../assests/img6.jpg";
+import Temple1 from "../assests/temple1.jpeg";
 const images = [
   Img1,
   Img2,
   Img3,
   Img4,
   Img5,
-  Img6
+  Img6,
+  Temple1
 ];
 
 export default function AdvancedInfiniteSlider() {
@@ -95,8 +97,9 @@ export default function AdvancedInfiniteSlider() {
           <div
             key={i}
             className="slide"
-            style={{ backgroundImage: `url(${img})` }}
-          ></div>
+          >
+             <img src={img} alt={`slide-${i}`} className="slide-image" />
+          </div>
         ))}
       </div>
 

@@ -117,8 +117,8 @@
 /* Image Slider Design */
 
 .slider-wrapper {
-  width: 90%;
-  height: 400px;
+  width: 70%;
+  height: 450px;
   overflow: hidden;
   position: relative;
   border-radius: 18px;
@@ -131,10 +131,18 @@
 }
 
 .slide {
-  min-width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
+   min-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;      
+  overflow: hidden;  
+}
+
+.slide-image{
+    width: 99%;
+    height : 99%;
+    object-fit: contain;
 }
 
 /* Arrows */
