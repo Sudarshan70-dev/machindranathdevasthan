@@ -226,5 +226,20 @@
   "volunteerErrorToast1": "स्वयंसेवक नोंदणी झाली नाही",
   "volunteerErrorToast2": "कृपया सर्व फील्ड भरा",
   "volunteerErrorToast3": "कृपया वैध मोबाईल नंबर टाका",
-  "volunteerErrorToast4": "कृपया वैध आधार क्रमांक टाका"
+  "volunteerErrorToast4": "कृपया वैध आधार क्रमांक टाका",
+
+  "welcomeDashboard": "स्वागत, Admin डॅशबोर्ड",
+  "dashboard": "डॅशबोर्ड",
+  "cashDonation": "रोख देणगी",
+  "vipPassCheck": "VIP पास तपासणी",
+  "volunteerList": "स्वयंसेवकांची यादी",
+  "reports": "अहवाल",
+  "writtenReciptCollection": "लिखित पावती संकलन",
+  "eventAlert": "कार्यक्रम सूचना",
+  "summary": "सारांश",
+  "date": "तारीख",
+  "onlineDonation": "ऑनलाईन देणगी",
+  "totalVolunteer": "एकूण स्वयंसेवक",
+  "totalVipPasses": "एकूण VIP पास",
+  "receipts": "पावत्या"
 }

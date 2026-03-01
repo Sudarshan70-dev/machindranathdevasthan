@@ -226,5 +226,20 @@
   "volunteerErrorToast1": "स्वयंसेवक का पंजीकरण नहीं हो सका",
   "volunteerErrorToast2": "कृपया सभी फ़ील्ड भरें",
   "volunteerErrorToast3": "कृपया सही मोबाइल नंबर दर्ज करें",
-  "volunteerErrorToast4": "कृपया सही आधार नंबर दर्ज करें"
+  "volunteerErrorToast4": "कृपया सही आधार नंबर दर्ज करें",
+
+  "welcomeDashboard": "स्वागत, Admin डैशबोर्ड",
+  "dashboard": "डैशबोर्ड",
+  "cashDonation": "नकद दान",
+  "vipPassCheck": "VIP पास जाँच",
+  "volunteerList": "स्वयंसेवकों की सूची",
+  "reports": "रिपोर्ट",
+  "writtenReciptCollection": "लिखित रसीद संग्रह",
+  "eventAlert": "कार्यक्रम सूचना",
+  "summary": "सारांश",
+  "date": "तारीख",
+  "onlineDonation": "ऑनलाइन दान",
+  "totalVolunteer": "कुल स्वयंसेवक",
+  "totalVipPasses": "कुल VIP पास",
+  "receipts": "रसीदें"
 }

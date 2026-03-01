@@ -218,7 +218,38 @@
   "volunteerErrorToast1" :"Volunteer not registered",
   "volunteerErrorToast2" :"All fields must be fill",
   "volunteerErrorToast3" :"Please enter valid Mobile number",
-  "volunteerErrorToast4" :"Please enter valid Aadhar number"
+  "volunteerErrorToast4" :"Please enter valid Aadhar number",
+
+  "welcomeDashboard" : "Welcome, Admin Dashboard",
+  "dashboard" : "Dashboard",
+  "cashDonation" : "Cash Donation",
+  "vipPassCheck" : "Vip Pass Check",
+  "volunteerList" : "Volunteers List",
+  "reports" : "Report",
+  "writtenReciptCollection" : "Written Receipts Collection",
+  "eventAlert" : "Event Alert",
+  "summary": "Summary",
+  "date" : "Date",
+  "onlineDonation" : "Online Donation",
+  "totalVolunteer" : "Total Volunteer",
+  "totalVipPasses" : "Total VIP Passes",
+  "receipts" : "Receipts",
+
+  "monthly" : "Monthly",
+  "yearly" :"Yearly",
+  "jan" : "January",
+  "feb" : "February",
+  "mar" : "March",
+  "apr" : "April",
+  "may" : "May",
+  "jun" : "June",
+  "jul" : "July",
+  "aug" : "August",
+  "sep" : "September",
+  "oct" : "October",
+  "nov" : "November",
+  "dec" : "December"
+
 
 
 

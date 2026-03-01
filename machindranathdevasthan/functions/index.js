@@ -25,17 +25,25 @@ setGlobalOptions({ maxInstances: 10 });
 
 const functions = require("firebase-functions/v1");
 const admin = require("firebase-admin");
-const cors = require("cors")({ origin: true });
-admin.initializeApp();
+const cors = require("cors")({origin: true});
+const {registerVolunteer} = require("./src/routes/volunteer");
+if (!admin.apps.length) {
+  admin.initializeApp();
+}
 
-
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
-
-const volunteerRoutes = require("./src/routes/volunteer");
 
 exports.registerVolunteer = functions
   .region("asia-south1")
   .https.onRequest((req, res) => {
-    cors(req, res, () => volunteerRoutes.registerVolunteer(req, res));
+    cors(req, res, async () => {
+      if (req.method === "OPTIONS") {
+        return res.status(204).send("");
+      }
+
+      if (req.method !== "POST") {
+        return res.status(405).json({message: "Method not allowed"});
+      }
+
+      return registerVolunteer(req, res);
+    });
   });

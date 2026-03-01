@@ -1,6 +1,9 @@
 const admin = require("firebase-admin");
 
-// App is initialized in functions/index.js. Reuse that instance here.
+if (!admin.apps.length) {
+  admin.initializeApp();
+}
+
 const db = admin.firestore();
 const auth = admin.auth();
 

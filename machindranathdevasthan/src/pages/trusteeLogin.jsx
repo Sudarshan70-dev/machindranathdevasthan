@@ -1,30 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import TextField from "../components/muiTextfiled";
 import Button from "../components/muiButton";
 import "../style.css";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/auth";
+
 
 const TrusteeLogin = () => {
   const { t } = useTranslation();
-  const [trusteeId, setTrusteeId] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleCancel = () => {
-    setTrusteeId("");
-    setPassword("");
-  };
+  const handleLogin =async () => {
+    try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
 
-  const handleLogin = () => {
-    const loginPayload = {
-      trusteeId,
-      password,
-    };
+    const user = userCredential.user;
 
-    console.log(loginPayload);
+    console.log("Login Successful:", user.email);
+    
+    // Redirect after login
+    navigate("/trusteeDashboard");
+
+  } catch (error) {
+    console.error("Login Error:", error.message);
+
+    if (error.code === "auth/user-not-found") {
+      alert("User not found");
+    } else if (error.code === "auth/wrong-password") {
+      alert("Incorrect password");
+    } else {
+      alert(error.message);
+    }
+  }
     // TODO: Integrate trustee authentication API.
   };
+
+  const { currentUser } = useAuth();
+
+  useEffect(() => {
+    console.log("currunt user in login ---> ",currentUser)
+    if (currentUser) {
+      navigate("/trusteeDashboard");
+    }
+  }, [currentUser]);
 
   return (
     <motion.div
@@ -43,8 +71,8 @@ const TrusteeLogin = () => {
               <TextField
                 id="trusteeLoginId"
                 label={t("trusteeId")}
-                value={trusteeId}
-                onChange={(e) => setTrusteeId(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 type="text"
               />
             </div>
@@ -60,20 +88,10 @@ const TrusteeLogin = () => {
             </div>
 
             <div className="donationActions">
-              <Button id="cancelTrusteeLogin" onClick={handleCancel}>
-                {t("cancle")}
-              </Button>
               <Button id="submitTrusteeLogin" onClick={handleLogin}>
                 {t("login")}
               </Button>
             </div>
-
-            <p className="trusteeAuthSwitch">
-              {t("noTrusteeAccount")}{" "}
-              <Link to="/trustee-register" className="trusteeAuthLink">
-                {t("register")}
-              </Link>
-            </p>
           </div>
         </div>
       </div>

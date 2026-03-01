@@ -27,4 +27,4 @@ if (window.location.hostname === "localhost") {
   connectFunctionsEmulator(functions, "localhost", 5001);
 }
 
-export { db, functions };
+export { db, functions, app };

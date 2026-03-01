@@ -4,13 +4,31 @@ import { useTranslation } from "react-i18next";
 import Tab from '@mui/material/Tab';
 import Logo from "../assests/Logo.png";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase/auth";
 
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
+
+  const handleLogout= async()=>{
+      try{
+        await signOut(auth);
+        console.log("logout success")
+        navigate("/trustee-login")
+      }catch(err){
+        console.log("error while logout",err);
+      }
+
+
+  }
+
   return (
     <nav className="navBar headerColor">
+      {console.log("currentUser is --> ",currentUser)}
       <div className="langaugeSelector">
         <div onClick={() => i18n.changeLanguage("en")}>English |</div>
         <div onClick={() => i18n.changeLanguage("mr")}>मराठी |</div>
@@ -24,7 +42,12 @@ const Navbar = () => {
             <div className="address">{t("address")}</div>
             <div className="address">{t("trustNo")}</div>
           </div>
-        
+        {currentUser ? (
+          <div className="navigationTabs navTitle">
+
+              <Tab sx={{fontWeight:"700", color:"#FF3300"}} label={t("logout")} value="5" onClick={handleLogout} />
+          </div>
+        ):(
           <div className="navigationTabs navTitle">
             <Tab sx={{fontWeight:"700", color:"#FF3300"}} label={t("home")} value="1" onClick={()=>navigate("/")} />
             <Tab sx={{fontWeight:"700", color:"#FF3300"}} label={t("about")} value="2" onClick={()=>navigate("/about")}/>
@@ -33,6 +56,7 @@ const Navbar = () => {
             <Tab sx={{fontWeight:"700", color:"#FF3300"}} label={t("login")} value="5" onClick={()=>navigate("/trustee-login")} />
 
           </div>
+        )}
         </div>
       </div>
     </nav>
