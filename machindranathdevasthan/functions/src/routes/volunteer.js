@@ -6,7 +6,6 @@
 /* eslint-disable padded-blocks */
 const firestore = require("../config/admin");
 const { DataBaseConstant, CollectionName } = require("./constant");
-// const admin = require("firebase-admin");
 const { FieldValue } = require("firebase-admin/firestore");
 
 

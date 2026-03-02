@@ -2,6 +2,7 @@ import React from "react";
 import TextField from "@mui/material/TextField";
 
 const MuiTextField = (props) => {
+  const require = props.required === false ? false : true;
   return (
     <TextField
       id={props.id}
@@ -10,7 +11,7 @@ const MuiTextField = (props) => {
       type={props.type || "text"}
       value={props.value}
       onChange={props.onChange}
-      required
+      required = {require}
       sx={{
         width: "100%",
         "& .MuiInputBase-input": {

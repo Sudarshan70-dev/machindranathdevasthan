@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../style.css";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -13,10 +13,15 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { CollectionName, DataBaseConstant } from "../constants";
+import { getCollectionDataByDate } from "../firebase/dbFunctions";
+
 
 const Dashboard = () => {
   const { t } = useTranslation();
   const [view, setView] = useState("monthly");
+  const [totalCashAmount, setTotalCashAmount] = useState(0);
+  const [totalCashReciept, setTotalCashReciept] = useState(0);
 
   const today = new Date();
 
@@ -51,6 +56,25 @@ const Dashboard = () => {
   //   online: Math.floor(Math.random() * 15000) + 7000
   // }));
 
+useEffect(()=>{
+  getTodaysData();
+},[])
+
+  const getTodaysData = async()=>{
+
+    const collectionData = await getCollectionDataByDate(CollectionName.cashDonation);
+    console.log("collection data is ----> ",collectionData)
+
+        
+    let totalAmount = 0;
+     collectionData.forEach((dataObj)=>{
+      totalAmount += dataObj[DataBaseConstant.ammount];
+    })
+    setTotalCashAmount(totalAmount);
+    setTotalCashReciept(collectionData.length)
+  } 
+
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -75,8 +99,8 @@ const Dashboard = () => {
             <div className="dashboardSummaryGrid">
               <div className="dashboardSummaryCard">
                 <div className="cardTextHeader">{t("cashDonation")}</div>
-                <div className="centerDiv">RS : 1000</div>
-                <div className="centerDiv">100 {t("receipts")}</div>
+                <div className="centerDiv">RS : {totalCashAmount}</div>
+                <div className="centerDiv">{totalCashReciept} {t("receipts")}</div>
               </div>
               <div className="dashboardSummaryCard">
                 <div className="cardTextHeader">{t("onlineDonation")}</div>
@@ -128,7 +152,7 @@ const Dashboard = () => {
                 <YAxis
                   axisLine={false}
                   tickLine={false}
-                  tickFormatter={(value) => `$${value / 1000}k`}
+                  tickFormatter={(value) => `Rs ${value / 1000}k`}
                 />
                 <Tooltip
                   contentStyle={{

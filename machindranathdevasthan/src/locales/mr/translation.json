@@ -241,5 +241,20 @@
   "onlineDonation": "ऑनलाईन देणगी",
   "totalVolunteer": "एकूण स्वयंसेवक",
   "totalVipPasses": "एकूण VIP पास",
-  "receipts": "पावत्या"
+  "receipts": "पावत्या",
+
+  "cashAndItem": "रोख किंवा वस्तू दान",
+  "itemDonation": "वस्तू",
+  "itemName": "वस्तूचे नाव",
+  "itemQty": "वस्तूचे प्रमाण",
+
+  "paymentSuccessToast": "पेमेंट यशस्वी झाले",
+  "paymentErrorToast1": "पेमेंट अयशस्वी, काहीतरी चूक झाली आहे",
+  "paymentErrorToast2": "सर्व रकाने भरणे आवश्यक आहे",
+  "paymentErrorToast3": "कृपया वैध मोबाईल नंबर प्रविष्ट करा",
+  "paymentErrorItemName": "कृपया वस्तूचे नाव प्रविष्ट करा.",
+  "paymentErrorItemQty": "कृपया वस्तूचे प्रमाण प्रविष्ट करा.",
+  "paymentErrorAmount": "कृपया रक्कम प्रविष्ट करा.",
+
+  "save": "जतन करा"
 }

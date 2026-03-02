@@ -13,3 +13,13 @@ export const submitVolunteer =async (data)=>{
   return responce.json();
 
 }
+export const addCashItemDonation =async (data)=>{
+  const responce = await fetch(`${BASE_URL}/addCashItemDonation`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  })
+  return responce.json();
+
+}
+

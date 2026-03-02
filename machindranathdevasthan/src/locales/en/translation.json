@@ -234,6 +234,20 @@
   "totalVolunteer" : "Total Volunteer",
   "totalVipPasses" : "Total VIP Passes",
   "receipts" : "Receipts",
+  "cashAndItem" : "Cash Or Item Donation",
+  "itemDonation" : "Item",
+  "itemName" : "Item Name",
+  "itemQty" : "Item Quntity",
+
+  "paymentSuccessToast" :"Payment success",
+  "paymentErrorToast1" :"Payment Faild, Something went wrong",
+  "paymentErrorToast2" :"All fields must be fill",
+  "paymentErrorToast3" :"Please enter valid Mobile number",
+  "paymentErrorItemName" :"Please enter Item Name.",
+  "paymentErrorItemQty" :"Please enter Item Quntity.",
+  "paymentErrorAmount" :"Please enter Amount.",
+
+  "save" : "Save",
 
   "monthly" : "Monthly",
   "yearly" :"Yearly",

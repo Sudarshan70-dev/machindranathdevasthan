@@ -27,6 +27,7 @@ const functions = require("firebase-functions/v1");
 const admin = require("firebase-admin");
 const cors = require("cors")({origin: true});
 const {registerVolunteer} = require("./src/routes/volunteer");
+const {addCashItemDonation} = require("./src/routes/donations");
 if (!admin.apps.length) {
   admin.initializeApp();
 }
@@ -37,7 +38,7 @@ exports.registerVolunteer = functions
   .https.onRequest((req, res) => {
     cors(req, res, async () => {
       if (req.method === "OPTIONS") {
-        return res.status(204).send("");
+        return res.status(200).send("");
       }
 
       if (req.method !== "POST") {
@@ -47,3 +48,22 @@ exports.registerVolunteer = functions
       return registerVolunteer(req, res);
     });
   });
+
+
+exports.addCashItemDonation = functions
+  .region("asia-south1")
+  .https.onRequest((req, res) => {
+    cors(req, res, async () => {
+      if (req.method === "OPTIONS") {
+        return res.status(200).send("");
+      }
+
+      if (req.method !== "POST") {
+        return res.status(405).json({message: "Method not allowed"});
+      }
+
+      return addCashItemDonation(req, res);
+    });
+  });
+
+

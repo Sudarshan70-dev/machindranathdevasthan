@@ -241,5 +241,20 @@
   "onlineDonation": "ऑनलाइन दान",
   "totalVolunteer": "कुल स्वयंसेवक",
   "totalVipPasses": "कुल VIP पास",
-  "receipts": "रसीदें"
+  "receipts": "रसीदें",
+  
+  "cashAndItem": "नकद या वस्तु दान",
+  "itemDonation": "वस्तु",
+  "itemName": "वस्तु का नाम",
+  "itemQty": "वस्तु की मात्रा",
+
+  "paymentSuccessToast": "भुगतान सफल रहा",
+  "paymentErrorToast1": "भुगतान विफल रहा, कुछ गलत हो गया",
+  "paymentErrorToast2": "सभी फ़ील्ड भरना अनिवार्य है",
+  "paymentErrorToast3": "कृपया मान्य मोबाइल नंबर दर्ज करें",
+  "paymentErrorItemName": "कृपया वस्तु का नाम दर्ज करें।",
+  "paymentErrorItemQty": "कृपया वस्तु की मात्रा दर्ज करें।",
+  "paymentErrorAmount": "कृपया राशि दर्ज करें।",
+
+  "save": "सहेजें"
 }

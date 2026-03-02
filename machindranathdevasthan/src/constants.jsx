@@ -26,11 +26,29 @@ export const DataBaseConstant = {
   mobileNumber:"mobile_number",
   address:"address",
   donationType:"donation_type",
-  ammount:"ammount",
+  ammount:"amount",
   noOfStones:"number_of_tones",
   uidNo:"UID_number",
   age:"Age",
   vipPassAmt : 200,
   createDate : "created_date",
+  itemDonation : "item",
+  itemName : "item_name",
+  itemQty : "item_quntity",
+  receiptNo: "receipt_no",
+
+}
+
+export const DonationType ={ 
+  donationForMandir : "Mandir Restoration",
+  gowshalaDonation : "Goshala",
+  annadanDonation : "Annadan",
+  itemDonation : "Items Donation"
 }
   
+export const CollectionName = {
+    volunteers: "volunteers",
+    cashDonation : "cash_donation",
+    itemDonation : "item_donation",
+
+};
