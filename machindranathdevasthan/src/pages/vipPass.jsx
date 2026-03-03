@@ -4,34 +4,41 @@ import Button from "../components/muiButton";
 import "../style.css";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { DataBaseConstant } from "../constants";
+import { CollectionName, DataBaseConstant, DonationType } from "../constants";
+import { getLastDocumentFromDb } from "../firebase/dbFunctions";
+import { vipPassCreation } from "../api/firebaseApi";
+import { toast } from "react-toastify";
+import LoaderOverlay from "../components/loaderOverlay";
+import DonationReceipt from "../components/reciept";
+
 
 const VipPass = () => {
   const { t } = useTranslation();
 
   const [passAmount, setPassAmount] = useState(DataBaseConstant.vipPassAmt);
   // 🔥 Dynamic Members State
- const [mobileNumber, setMobileNumber] = useState("");
-     const [fullName, setFullName] = useState("");
-     const [address, setAddress] = useState("");
-     const [age, setAge] = useState(0);
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [address, setAddress] = useState("");
+  const [age, setAge] = useState(0);
   const [errors, setErrors] = useState({});
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [receiptData, setReceiptData] = useState();
 
   /**This will be remove after payment gateway intigreat */
-  useEffect(()=>{
-    alert(t("commingSoon1"));    
-  },[])
+  useEffect(() => {
+    alert(t("commingSoon1"));
+  }, []);
 
   // 🔥 Handle Input Change
- 
+
   const handleNameChange = (e) => {
     setFullName(e.target.value);
   };
 
   const handleAddressChange = (e) => {
     setAddress(e.target.value);
-  }
+  };
 
   const handleMobileChange = (e) => {
     const value = e.target.value.replace(/[^0-9]/g, "");
@@ -47,15 +54,12 @@ const VipPass = () => {
     }
   };
 
-  
-
   // 🔥 Reset
   const handleCancel = () => {
-   setFullName("");
+    setFullName("");
     setMobileNumber("");
     setAddress("");
     setAge(0);
-    setPassAmount(DataBaseConstant.vipPassAmt);
 
     setErrors({});
   };
@@ -75,34 +79,47 @@ const VipPass = () => {
   };
 
   // 🔥 Submit
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (!validate()) return;
+    setIsLoading(true);
+    try {
+      const lastReceiptData = await getLastDocumentFromDb(
+        CollectionName.vipPass,
+      );
 
-    const receiptData = {
-      receiptId: Date.now(),
-       [DataBaseConstant.name]: fullName,
-                [DataBaseConstant.mobileNumber]: mobileNumber,
-                [DataBaseConstant.address]: address,
-                [DataBaseConstant.age]: age,
-    };
+      const receiptNo = lastReceiptData && lastReceiptData[DataBaseConstant.receiptNo]
+        ? lastReceiptData[DataBaseConstant.receiptNo] + 1
+        : 1;
+      const passData = {
+        [DataBaseConstant.name]: fullName,
+        [DataBaseConstant.mobileNumber]: mobileNumber,
+        [DataBaseConstant.address]: address,
+        [DataBaseConstant.age]: age,
+        [DataBaseConstant.receiptNo]: receiptNo,
+        [DataBaseConstant.donationType]: DonationType.vipPass,
+        
+      };
 
-    console.log("Final Data:", receiptData);
+      const responce = await vipPassCreation(passData);
+      if (responce.success) {
+        toast.success(t("paymentSuccessToast"));
+        setReceiptData(passData)
+        handleCancel();
+      } else {
+        toast.error(t("paymentErrorToast1"));
+      }
 
-    /*
-        Example Firebase structure:
+      console.log("Final Data:", passData);
+    } catch (error) {
+      console.error("error in vipPass creation-->", error);
+    } finally {
+      setIsLoading(false);
+    }
 
-        {
-          receiptId: 123456,
-          totalMembers: 2,
-          members: [...]
-        }
-    */
 
-    // 👉 Call your database function here
+    // alert(t("commingSoon1"));
 
-    alert(t("commingSoon1"));
-
-    handleCancel();
+    // handleCancel();
   };
 
   return (
@@ -112,6 +129,8 @@ const VipPass = () => {
       exit={{ opacity: 0, x: -80 }}
       transition={{ duration: 0.4 }}
     >
+      <LoaderOverlay isLoading={isLoading} />
+
       <div>
         <h1 className="headerTextSize centerDiv headerColor">{t("vipPass")}</h1>
 
@@ -161,6 +180,8 @@ const VipPass = () => {
             </div>
           </div>
         </div>
+        {receiptData && <DonationReceipt data={receiptData} />}
+
       </div>
     </motion.div>
   );

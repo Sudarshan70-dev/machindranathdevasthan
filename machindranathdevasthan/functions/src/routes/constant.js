@@ -53,6 +53,8 @@ export const CollectionName = {
     volunteers: "volunteers",
     cashDonation : "cash_donation",
     itemDonation : "item_donation",
+    vipPass : "vip_pass",
+
 
 };
 

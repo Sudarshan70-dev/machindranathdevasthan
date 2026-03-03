@@ -10,7 +10,7 @@ import {
 import { db } from "../firebase/firestore";
 import { DataBaseConstant } from "../constants";
 
-export const getLastReceiptDirectFromDb = async (collectionName) => {
+export const getLastDocumentFromDb = async (collectionName) => {
   try {
     const q = query(
       collection(db, collectionName),
@@ -19,7 +19,7 @@ export const getLastReceiptDirectFromDb = async (collectionName) => {
     );
     const snapshot = await getDocs(q);
 
-    console.log("snapshot.docs[0].data() is -----> ", snapshot.docs[0].data());
+    // console.log("snapshot.docs[0].data() is -----> ", snapshot.docs[0].data());
     if (snapshot.empty) return null;
     return snapshot.docs[0].data();
   } catch (error) {

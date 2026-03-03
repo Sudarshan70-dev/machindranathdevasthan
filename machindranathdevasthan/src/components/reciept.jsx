@@ -12,7 +12,7 @@ const DevasthanReceipt = ({ data }) => {
 
   const formattedDate = `${today.getDate().toString().padStart(2, "0")}/${(today.getMonth() + 1).toString().padStart(2, "0")}/${today.getFullYear()}`;
 
-  const printPDFDirectly = async () => {
+  const printPDFDirectly = async (downloadStatus) => {
     const element = receiptRef.current;
 
     // 1. Capture the element as a canvas
@@ -31,6 +31,7 @@ const DevasthanReceipt = ({ data }) => {
       format: "a5",
     });
 
+    
     const imgWidth = 146;
     const imgHeight = 98;
 
@@ -45,20 +46,27 @@ const DevasthanReceipt = ({ data }) => {
     iframe.src = pdfBlob;
     document.body.appendChild(iframe);
 
+     /* ---------------------------------- */
+    /*           DOWNLOAD MODE            */
+    /* ---------------------------------- */
+    if (downloadStatus) {
+      pdf.save(`Receipt-${data?.receiptNo || Date.now()}.pdf`);
+      return;
+    }
+
+    /* ---------------------------------- */
+    /*             PRINT MODE             */
+    /* ---------------------------------- */
     // 5. Trigger print once loaded
     iframe.onload = () => {
       iframe.contentWindow.focus();
       iframe.contentWindow.print();
-      // Optional: Remove iframe after printing
-      //   setTimeout(() => {
-      //     document.body.removeChild(iframe);
-      //   }, 1000);
     };
   };
 
   return (
     <div className="receipt-main-wrapper">
-      {/* {console.log("data is in recipt  ----> ", data)} */}
+     {/* {console.log("data is in recipt  ----> ", data)} */}
       <div className="receipt-card-container" ref={receiptRef}>
         {/* Background Watermark Image */}
         <div className="receipt-watermark"></div>
@@ -73,7 +81,10 @@ const DevasthanReceipt = ({ data }) => {
                   श्री क्षेत्र मच्छिंद्रनाथ देवस्थान
                 </h1>
                 <p className="temple-sub-text">
-                  मौ. सावरगाव, ता. आष्टी, जि. बीड. ४१४२०३   न्यास. नों. क्र. ए. १२७६ बीड
+                  मौ. सावरगाव, ता. आष्टी, जि. बीड. ४१४२०३.
+                </p>
+                <p className="temple-sub-text">
+                  न्यास. नों. क्र. ए. १२७६ बीड
                 </p>
                 <p className="temple-contact">मोबाईल : +91 9423116214 / +91 7798750075</p>
               </div>
@@ -102,18 +113,36 @@ const DevasthanReceipt = ({ data }) => {
               <span className="form-value">{data.address}</span>
             </div>
 
-            {data.donationType === DonationType.itemDonation ? (
+            {data[DataBaseConstant.donationType] === DonationType.itemDonation ? (
               <div className="form-row">
                 <span className="form-label">वस्तु :</span>
                 <span className="form-value amount-text">
-                  ₹ {data.itemName}/-
+                  {data[DataBaseConstant.itemName]}
                 </span>
                 <span className="form-label" style={{ marginLeft: "20px" }}>
                   नग :
                 </span>
-                <span className="form-value marathi-words">{data.itemQty}</span>
+                <span className="form-value marathi-words">{data[DataBaseConstant.itemQty]}</span>
               </div>
-            ) : (
+            ) : data[DataBaseConstant.donationType] === DonationType.vipPass ? (
+              <div>
+
+              <div className="form-row">
+                <span className="form-label">वय :</span>
+                <span className="form-value">
+                  {data[DataBaseConstant.age]}
+                </span>
+                <span className="form-label" style={{ marginLeft: "20px" }}>
+                  पास रु. :
+                </span>
+                <span className="form-value amount-text">
+                  ₹ 200 /-
+                </span>
+              </div>
+                <span className="form-label">सूचना: कृपया आपला VIP  दर्शन पास डाउनलोड करुन ठेवा.</span>
+              </div>
+            )
+             : (
               <div className="form-row">
                 <span className="form-label">देणगी रु. :</span>
                 <span className="form-value amount-text">
@@ -126,7 +155,9 @@ const DevasthanReceipt = ({ data }) => {
                   {toMarathiWords(data.amount)}
                 </span>
               </div>
-            )}
+            )
+            
+            }
           </div>
 
           {/* Footer Section */}
@@ -138,8 +169,11 @@ const DevasthanReceipt = ({ data }) => {
         </div>
       </div>
 
-      <button className="no-print-btn" onClick={printPDFDirectly}>
+      <button className="no-print-btn" onClick={()=>printPDFDirectly(false)}>
         Print Receipt (पावती प्रिंट करा)
+      </button>
+      <button className="no-print-btn" onClick={()=>printPDFDirectly(true)}>
+        Download Receipt (पावती डाउनलोड करा)
       </button>
     </div>
   );

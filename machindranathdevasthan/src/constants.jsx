@@ -43,12 +43,14 @@ export const DonationType ={
   donationForMandir : "Mandir Restoration",
   gowshalaDonation : "Goshala",
   annadanDonation : "Annadan",
-  itemDonation : "Items Donation"
+  itemDonation : "Items Donation",
+  vipPass : "VIP Darshan Pass"
 }
   
 export const CollectionName = {
     volunteers: "volunteers",
     cashDonation : "cash_donation",
     itemDonation : "item_donation",
+    vipPass : "vip_pass",
 
 };

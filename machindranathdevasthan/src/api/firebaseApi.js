@@ -23,3 +23,12 @@ export const addCashItemDonation =async (data)=>{
 
 }
 
+export const vipPassCreation = async (data) =>{
+  const responce = await fetch(`${BASE_URL}/vipPassCreation`,{
+    method:"POST",
+    headers:{"Content-Type" : "application/json"},
+    body : JSON.stringify(data),
+  })
+  return responce.json();
+}
+

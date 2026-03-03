@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "../style.css";
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   LineChart,
@@ -15,18 +14,23 @@ import {
 } from "recharts";
 import { CollectionName, DataBaseConstant } from "../constants";
 import { getCollectionDataByDate } from "../firebase/dbFunctions";
-
+import LoaderOverlay from "../components/loaderOverlay";
 
 const Dashboard = () => {
   const { t } = useTranslation();
   const [view, setView] = useState("monthly");
+  const [isLoading, setIsLoading] = useState(false);
   const [totalCashAmount, setTotalCashAmount] = useState(0);
   const [totalCashReciept, setTotalCashReciept] = useState(0);
 
   const today = new Date();
 
-  const formattedDate = `${today.getDate().toString().padStart(2, "0")}/${(today.getMonth() + 1).toString().padStart(2, "0")}/${today.getFullYear()}`;
-
+  const formattedDate = `${today
+    .getDate()
+    .toString()
+    .padStart(2, "0")}/${(today.getMonth() + 1)
+    .toString()
+    .padStart(2, "0")}/${today.getFullYear()}`;
 
   const monthlyData = [
     { name: "Jan", cash: 12000, online: 8000 },
@@ -41,7 +45,7 @@ const Dashboard = () => {
     { name: "Oct", cash: 25000, online: 20000 },
     { name: "Nov", cash: 23000, online: 18000 },
     { name: "Dec", cash: 30000, online: 25000 },
-  ];
+     ];
 
   const yearlyData = [
     { name: "2021", cash: 185000, online: 120000 },
@@ -50,77 +54,74 @@ const Dashboard = () => {
     { name: "2024", cash: 252000, online: 195000 },
   ];
 
-  // const yearlyDonationData = months.map((month, index) => ({
-  //   month,
-  //   cash: Math.floor(Math.random() * 20000) + 10000,
-  //   online: Math.floor(Math.random() * 15000) + 7000
-  // }));
+  useEffect(() => {
+    getTodaysData();
+  }, []);
 
-useEffect(()=>{
-  getTodaysData();
-},[])
+  const getTodaysData = async () => {
+    setIsLoading(true);
+    try {
+      const collectionData = await getCollectionDataByDate(
+        CollectionName.cashDonation
+      );
 
-  const getTodaysData = async()=>{
+      let totalAmount = 0;
+      collectionData.forEach((dataObj) => {
+        totalAmount += dataObj[DataBaseConstant.ammount];
+      });
 
-    const collectionData = await getCollectionDataByDate(CollectionName.cashDonation);
-    console.log("collection data is ----> ",collectionData)
-
-        
-    let totalAmount = 0;
-     collectionData.forEach((dataObj)=>{
-      totalAmount += dataObj[DataBaseConstant.ammount];
-    })
-    setTotalCashAmount(totalAmount);
-    setTotalCashReciept(collectionData.length)
-  } 
-
+      setTotalCashAmount(totalAmount);
+      setTotalCashReciept(collectionData.length);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.4 }}
-    >
-      <div>
-        <div className="bodyContainer aboutTempleCard">
-          <div className="flexEnd">
-            {t("date")}: {formattedDate}
+    <>
+      <LoaderOverlay isLoading={isLoading} />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <div>
+          <div className="bodyContainer aboutTempleCard">
+            <div className="flexEnd">
+              {t("date")}: {formattedDate}
+            </div>
+            <h1 className="headerColor">{t("welcomeDashboard")}</h1>
           </div>
-          <h1 className="headerColor">{t("welcomeDashboard")}</h1>
-        </div>
 
-        {/**summary */}
-        <div className="aboutTempleCard">
-          <div className="headerTextSize headerColor centerDiv">
-            {t("summary")}
-          </div>
-          <div className="dashboardSummaryWrapper">
-            <div className="dashboardSummaryGrid">
-              <div className="dashboardSummaryCard">
-                <div className="cardTextHeader">{t("cashDonation")}</div>
-                <div className="centerDiv">RS : {totalCashAmount}</div>
-                <div className="centerDiv">{totalCashReciept} {t("receipts")}</div>
-              </div>
-              <div className="dashboardSummaryCard">
-                <div className="cardTextHeader">{t("onlineDonation")}</div>
-                <div className="centerDiv">RS : 1000</div>
-                <div className="centerDiv">100 {t("receipts")}</div>
-              </div>
-              <div className="dashboardSummaryCard">
-                <div className="cardTextHeader">{t("totalVolunteer")}</div>
-
-                <div className="centerDiv">100</div>
-              </div>
-              <div className="dashboardSummaryCard">
-                <div className="cardTextHeader">{t("totalVipPasses")}</div>
-                <div className="centerDiv">100</div>
+          <div className="aboutTempleCard">
+            <div className="headerTextSize headerColor centerDiv">{t("summary")}</div>
+            <div className="dashboardSummaryWrapper">
+              <div className="dashboardSummaryGrid">
+                <div className="dashboardSummaryCard">
+                  <div className="cardTextHeader">{t("cashDonation")}</div>
+                  <div className="centerDiv">RS : {totalCashAmount}</div>
+                  <div className="centerDiv">
+                    {totalCashReciept} {t("receipts")}
+                  </div>
+                </div>
+                <div className="dashboardSummaryCard">
+                  <div className="cardTextHeader">{t("onlineDonation")}</div>
+                  <div className="centerDiv">RS : 1000</div>
+                  <div className="centerDiv">100 {t("receipts")}</div>
+                </div>
+                <div className="dashboardSummaryCard">
+                  <div className="cardTextHeader">{t("totalVolunteer")}</div>
+                  <div className="centerDiv">100</div>
+                </div>
+                <div className="dashboardSummaryCard">
+                  <div className="cardTextHeader">{t("totalVipPasses")}</div>
+                  <div className="centerDiv">100</div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/** Graph of total donation */}
           <div
             style={{
               width: "90%",
@@ -128,7 +129,7 @@ useEffect(()=>{
               background: "#fdd7a9",
               padding: "20px",
               borderRadius: "15px",
-              marginBottom:"20px"
+              marginBottom: "20px",
             }}
           >
             <div>
@@ -182,10 +183,10 @@ useEffect(()=>{
                 />
               </LineChart>
             </ResponsiveContainer>
-          
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </>
   );
 };
 

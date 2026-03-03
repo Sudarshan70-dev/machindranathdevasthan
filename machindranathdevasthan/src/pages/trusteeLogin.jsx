@@ -8,47 +8,50 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/auth";
-
+import LoaderOverlay from "../components/loaderOverlay";
 
 const TrusteeLogin = () => {
   const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin =async () => {
+  const handleLogin = async () => {
+    setIsLoading(true);
     try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
 
-    const user = userCredential.user;
+      const user = userCredential.user;
 
-    console.log("Login Successful:", user.email);
-    
-    // Redirect after login
-    navigate("/trusteeDashboard");
+      console.log("Login Successful:", user.email);
 
-  } catch (error) {
-    console.error("Login Error:", error.message);
+      // Redirect after login
+      navigate("/trusteeDashboard");
+    } catch (error) {
+      console.error("Login Error:", error.message);
 
-    if (error.code === "auth/user-not-found") {
-      alert("User not found");
-    } else if (error.code === "auth/wrong-password") {
-      alert("Incorrect password");
-    } else {
-      alert(error.message);
+      if (error.code === "auth/user-not-found") {
+        alert("User not found");
+      } else if (error.code === "auth/wrong-password") {
+        alert("Incorrect password");
+      } else {
+        alert(error.message);
+      }
+    } finally {
+      setIsLoading(false);
     }
-  }
     // TODO: Integrate trustee authentication API.
   };
 
   const { currentUser } = useAuth();
 
   useEffect(() => {
-    console.log("currunt user in login ---> ",currentUser)
+    console.log("currunt user in login ---> ", currentUser);
     if (currentUser) {
       navigate("/trusteeDashboard");
     }
@@ -61,6 +64,8 @@ const TrusteeLogin = () => {
       exit={{ opacity: 0, x: -80 }}
       transition={{ duration: 0.4 }}
     >
+      <LoaderOverlay isLoading={isLoading} />
+
       <div>
         <h1 className="headerTextSize centerDiv headerColor">{t("login")}</h1>
         <div className="centerDiv">

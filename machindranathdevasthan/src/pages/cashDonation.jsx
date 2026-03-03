@@ -10,20 +10,23 @@ import { DataBaseConstant, DonationType, CollectionName } from "../constants";
 import { addCashItemDonation } from "../api/firebaseApi";
 import { toast } from "react-toastify";
 import DonationReceipt from "../components/reciept";
-import { getLastReceiptDirectFromDb } from "../firebase/dbFunctions";
-
+import { getLastDocumentFromDb } from "../firebase/dbFunctions";
+import LoaderOverlay from "../components/loaderOverlay";
 
 const CashDonation = () => {
   const { t } = useTranslation();
 
-  const [donationType, setDonationType] = useState(DonationType.donationForMandir);
+  const [donationType, setDonationType] = useState(
+    DonationType.donationForMandir,
+  );
   const [mobileNumber, setMobileNumber] = useState();
   const [fullName, setFullName] = useState();
   const [address, setAddress] = useState();
   const [ammount, setAmount] = useState();
   const [itemName, setItemName] = useState();
   const [itemQty, setItemQty] = useState();
-  const [receiptData , setReceiptData] = useState();
+  const [receiptData, setReceiptData] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFullName = (e) => {
     setFullName(e.target.value);
@@ -46,18 +49,18 @@ const CashDonation = () => {
 
   const handleAmount = (e) => {
     const value = e.target.value.replace(/[^0-9]/g, "");
-    if(value){
-        setAmount(parseInt(value));
-    }else{
-        setAmount(0)
+    if (value) {
+      setAmount(parseInt(value));
+    } else {
+      setAmount(0);
     }
   };
   const handleItemQty = (e) => {
     const value = e.target.value.replace(/[^0-9]/g, "");
-    if(value){
-        setItemQty(parseInt(value));
-    }else{
-        setItemQty(0);
+    if (value) {
+      setItemQty(parseInt(value));
+    } else {
+      setItemQty(0);
     }
   };
 
@@ -75,75 +78,97 @@ const CashDonation = () => {
     setAmount(0);
     setDonationType(DonationType.donationForMandir);
     setReceiptData(null);
-
   };
 
   const handlePayNow = async () => {
+    setIsLoading(true);
     /** validation */
 
     if (!fullName || !address || !donationType) {
       toast.error(t("volunteerErrorToast2"));
+      setIsLoading(false);
 
       return;
     }
     if (mobileNumber && mobileNumber.length !== 10) {
       toast.error(t("volunteerErrorToast3"));
+      setIsLoading(false);
+
       return;
     }
     if (donationType === DonationType.itemDonation) {
       if (!itemName) {
         toast.error(t("paymentErrorItemName"));
+        setIsLoading(false);
+
         return;
       }
       if (!itemQty) {
         toast.error(t("paymentErrorItemQty"));
+        setIsLoading(false);
+
         return;
       }
     } else {
       if (!ammount) {
         toast.error(t("paymentErrorAmount"));
+        setIsLoading(false);
+
         return;
       }
     }
 
     let dataToCreate = {};
-    if (donationType === DonationType.itemDonation) {
+    try{
 
+      if (donationType === DonationType.itemDonation) {
         /** get last item receipt data */
-        const lastReceiptData = await getLastReceiptDirectFromDb(CollectionName.itemDonation);
-
-        const receiptNo = lastReceiptData[DataBaseConstant.receiptNo] ? lastReceiptData[DataBaseConstant.receiptNo] + 1 : 1;
-
-      const data = {
-        [DataBaseConstant.name]: fullName,
-        [DataBaseConstant.mobileNumber]: mobileNumber,
-        [DataBaseConstant.address]: address,
-        [DataBaseConstant.donationType]: donationType,
-        [DataBaseConstant.itemName]: itemName,
-        [DataBaseConstant.itemQty]: itemQty,
-        [DataBaseConstant.receiptNo]: receiptNo,
-      };
-
-      dataToCreate = JSON.parse(JSON.stringify(data));
-    } else {
-
-         /** get last cash receipt data */
-        const lastReceiptData = await getLastReceiptDirectFromDb(CollectionName.cashDonation);
-
-        console.log("last receipt data is -----> ",lastReceiptData)
-        const receiptNo = lastReceiptData[DataBaseConstant.receiptNo] ? lastReceiptData[DataBaseConstant.receiptNo] + 1 : 1;
-
-      const data = {
-        [DataBaseConstant.name]: fullName,
-        [DataBaseConstant.mobileNumber]: mobileNumber,
-        [DataBaseConstant.address]: address,
-        [DataBaseConstant.ammount]: ammount,
-        [DataBaseConstant.donationType]: donationType,
-        [DataBaseConstant.receiptNo]: receiptNo,
-      };
-
-      dataToCreate = JSON.parse(JSON.stringify(data));
+        const lastReceiptData = await getLastDocumentFromDb(
+          CollectionName.itemDonation,
+        );
+  
+        const receiptNo = lastReceiptData[DataBaseConstant.receiptNo]
+          ? lastReceiptData[DataBaseConstant.receiptNo] + 1
+          : 1;
+  
+        const data = {
+          [DataBaseConstant.name]: fullName,
+          [DataBaseConstant.mobileNumber]: mobileNumber,
+          [DataBaseConstant.address]: address,
+          [DataBaseConstant.donationType]: donationType,
+          [DataBaseConstant.itemName]: itemName,
+          [DataBaseConstant.itemQty]: itemQty,
+          [DataBaseConstant.receiptNo]: receiptNo,
+        };
+  
+        dataToCreate = JSON.parse(JSON.stringify(data));
+      } else {
+        /** get last cash receipt data */
+        const lastReceiptData = await getLastDocumentFromDb(
+          CollectionName.cashDonation,
+        );
+  
+        console.log("last receipt data is -----> ", lastReceiptData);
+        const receiptNo = lastReceiptData[DataBaseConstant.receiptNo]
+          ? lastReceiptData[DataBaseConstant.receiptNo] + 1
+          : 1;
+  
+        const data = {
+          [DataBaseConstant.name]: fullName,
+          [DataBaseConstant.mobileNumber]: mobileNumber,
+          [DataBaseConstant.address]: address,
+          [DataBaseConstant.ammount]: ammount,
+          [DataBaseConstant.donationType]: donationType,
+          [DataBaseConstant.receiptNo]: receiptNo,
+        };
+  
+        dataToCreate = JSON.parse(JSON.stringify(data));
+      }
+    }catch(err){
+      console.error("erroe while createing data--> ",err);
+      setIsLoading(false);
     }
+    
 
     console.log("dta to create ----> ", dataToCreate);
 
@@ -157,7 +182,11 @@ const CashDonation = () => {
       } else {
         toast.error(t("paymentErrorToast1"));
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -167,6 +196,8 @@ const CashDonation = () => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4 }}
     >
+      <LoaderOverlay isLoading={isLoading} />
+
       <div>
         <h1 className="headerTextSize headerColor centerDiv">
           {t("cashAndItem")}
@@ -285,13 +316,10 @@ const CashDonation = () => {
             </div>
           </div>
         </div>
-        {receiptData && 
-        <DonationReceipt data={receiptData}/>
-        }
+        {receiptData && <DonationReceipt data={receiptData} />}
       </div>
     </motion.div>
   );
 };
 
 export default CashDonation;
-
