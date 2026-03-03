@@ -39,6 +39,8 @@ export const DataBaseConstant = {
   itemName : "item_name",
   itemQty : "item_quntity",
   receiptNo: "receipt_no",
+  isVisited : "isVisited",
+  visitDate : "visit_date",
 };
 
 

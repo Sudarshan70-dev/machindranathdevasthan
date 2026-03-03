@@ -102,15 +102,16 @@ const VipPass = () => {
 
       const responce = await vipPassCreation(passData);
       if (responce.success) {
-        toast.success(t("paymentSuccessToast"));
+        toast.success(t("passRegisterToast"));
         setReceiptData(passData)
         handleCancel();
       } else {
-        toast.error(t("paymentErrorToast1"));
+        toast.error(t("passRegisterErrToast"));
       }
-
+      
       console.log("Final Data:", passData);
     } catch (error) {
+      toast.error(t("passRegisterErrToast"));
       console.error("error in vipPass creation-->", error);
     } finally {
       setIsLoading(false);

@@ -256,5 +256,16 @@
   "paymentErrorItemQty": "कृपया वस्तु की मात्रा दर्ज करें।",
   "paymentErrorAmount": "कृपया राशि दर्ज करें।",
 
-  "save": "सहेजें"
+  "save": "सहेजें",
+  "search": "खोजें",
+  "searchPlaceholder": "पास नंबर दर्ज करें",
+  "passInformation": "पास की जानकारी",
+  "visited": "भ्रमण किया",
+  "visitDate": "भ्रमण की तिथि",
+  "visitMark": "उपस्थिति दर्ज करें",
+  "passRegisterToast": "VIP दर्शन पास सफलतापूर्वक पंजीकृत हो गया है।",
+  "passRegisterErrToast": "VIP दर्शन पास पंजीकृत नहीं हुआ।",
+  "passVisitMarkToast": "उपस्थिति सफलतापूर्वक दर्ज की गई।",
+  "passVisitMarkErrToast": "उपस्थिति दर्ज करना असफल रहा।",
+  "noRecordToast": "कोई रिकॉर्ड नहीं मिला"
 }

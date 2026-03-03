@@ -256,5 +256,16 @@
   "paymentErrorItemQty": "कृपया वस्तूचे प्रमाण प्रविष्ट करा.",
   "paymentErrorAmount": "कृपया रक्कम प्रविष्ट करा.",
 
-  "save": "जतन करा"
+  "save": "जतन करा",
+  "search": "शोधा",
+  "searchPlaceholder": "पास क्रमांक प्रविष्ट करा",
+  "passInformation": "पासची माहिती",
+  "visited": "भेट दिली",
+  "visitDate": "भेटीची तारीख",
+  "visitMark": "भेट म्हणून नोंदवा",
+  "passRegisterToast": "व्हीआयपी (VIP) दर्शन पास यशस्वीरित्या नोंदणीकृत झाला.",
+  "passRegisterErrToast": "व्हीआयपी (VIP) दर्शन पास नोंदणीकृत झाला नाही.",
+  "passVisitMarkToast": "भेट यशस्वीरित्या नोंदवली गेली.",
+  "passVisitMarkErrToast": "भेट नोंदवणे अयशस्वी झाले.",
+  "noRecordToast": "कोणतीही नोंद आढळली नाही"
 }

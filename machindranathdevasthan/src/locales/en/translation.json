@@ -248,6 +248,18 @@
   "paymentErrorAmount" :"Please enter Amount.",
 
   "save" : "Save",
+  "search" : "Search",
+  "searchPlaceholder" : "Enter Pass number",
+  "passInformation" : "Pass Information",
+  "visited" : "Visited",
+  "visitDate" : "Visit Date",
+  "visitMark" : "Mark as Visit",
+  "passRegisterToast" : "VIP Darshan Pass succesfully register.",
+  "passRegisterErrToast" : "VIP Darshan Pass not registered.",
+  "passVisitMarkToast" : "Mark as visit success.",
+  "passVisitMarkErrToast" : "Mark as visit unsuccesfull.",
+  "noRecordToast" : "No Record Found",
+
 
   "monthly" : "Monthly",
   "yearly" :"Yearly",
