@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { DataBaseConstant } from "../constants";
 import { submitVolunteer } from "../api/firebaseApi"
 import { toast } from "react-toastify";
+import LoaderOverlay from "../components/loaderOverlay";
 
 
 const VolunteerRegistration = () => {
@@ -18,6 +19,7 @@ const VolunteerRegistration = () => {
   const [address, setAddress] = useState();
   const [uidNo, setUidNo] = useState();
   const [age, setAge] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
 
   const handleFullName = (e) => {
@@ -93,6 +95,7 @@ if (!fullName || !mobileNumber || !address || !uidNo || !age) {
 
     // Logic for Database integration
     try {
+      setIsLoading(true);
       const responce = await submitVolunteer(data);
       if (responce.success) {
         toast.success(t("volunteerSuccessToast"));
@@ -101,7 +104,10 @@ if (!fullName || !mobileNumber || !address || !uidNo || !age) {
       }
     } catch (e) {
       toast.error(t("volunteerErrorToast1"))
+    }finally{
+      setIsLoading(false);
     }
+
     handleCancle();
 
 
@@ -117,6 +123,8 @@ if (!fullName || !mobileNumber || !address || !uidNo || !age) {
       exit={{ opacity: 0, x: -80 }}
       transition={{ duration: 0.4 }}
     >
+            <LoaderOverlay isLoading={isLoading} />
+      
       <div>
         <h1 className="headerTextSize centerDiv headerColor">
           {t("sevaBooking")}

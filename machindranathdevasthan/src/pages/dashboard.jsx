@@ -13,7 +13,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { CollectionName, DataBaseConstant } from "../constants";
-import { getCollectionDataByDate } from "../firebase/dbFunctions";
+import {  getCollectoinTotalDocCount, getTodaysTotalAmount, getTodayTotalRecieptCount } from "../firebase/dbFunctions";
 import LoaderOverlay from "../components/loaderOverlay";
 
 const Dashboard = () => {
@@ -22,6 +22,8 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [totalCashAmount, setTotalCashAmount] = useState(0);
   const [totalCashReciept, setTotalCashReciept] = useState(0);
+  const [totalVipPass, setTotalVipPass] = useState(0);
+  const [totalVolunteer, setTotalVolunteer] = useState(0);
 
   const today = new Date();
 
@@ -61,17 +63,18 @@ const Dashboard = () => {
   const getTodaysData = async () => {
     setIsLoading(true);
     try {
-      const collectionData = await getCollectionDataByDate(
-        CollectionName.cashDonation
-      );
+      
 
-      let totalAmount = 0;
-      collectionData.forEach((dataObj) => {
-        totalAmount += dataObj[DataBaseConstant.ammount];
-      });
+      const cashDonationTotal =  await getTodaysTotalAmount(CollectionName.cashDonation);
+      const totalCashReciept = await getTodayTotalRecieptCount(CollectionName.cashDonation);
+      const totalVolunteer = await getCollectoinTotalDocCount(CollectionName.volunteers);
+      const totalVIPPass = await getCollectoinTotalDocCount(CollectionName.vipPass);
+     
 
-      setTotalCashAmount(totalAmount);
-      setTotalCashReciept(collectionData.length);
+      setTotalCashAmount(cashDonationTotal || 0);
+      setTotalCashReciept(totalCashReciept || 0);
+      setTotalVipPass(totalVIPPass || 0);
+      setTotalVolunteer(totalVolunteer || 0);
     } finally {
       setIsLoading(false);
     }
@@ -112,11 +115,11 @@ const Dashboard = () => {
                 </div>
                 <div className="dashboardSummaryCard">
                   <div className="cardTextHeader">{t("totalVolunteer")}</div>
-                  <div className="centerDiv">100</div>
+                  <div className="centerDiv">{totalVolunteer}</div>
                 </div>
                 <div className="dashboardSummaryCard">
                   <div className="cardTextHeader">{t("totalVipPasses")}</div>
-                  <div className="centerDiv">100</div>
+                  <div className="centerDiv">{totalVipPass}</div>
                 </div>
               </div>
             </div>

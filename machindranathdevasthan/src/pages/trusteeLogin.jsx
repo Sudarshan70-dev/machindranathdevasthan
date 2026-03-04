@@ -6,9 +6,10 @@ import Button from "../components/muiButton";
 import "../style.css";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword,setPersistence, browserSessionPersistence } from "firebase/auth";
 import { auth } from "../firebase/auth";
 import LoaderOverlay from "../components/loaderOverlay";
+
 
 const TrusteeLogin = () => {
   const { t } = useTranslation();
@@ -20,6 +21,7 @@ const TrusteeLogin = () => {
   const handleLogin = async () => {
     setIsLoading(true);
     try {
+      await setPersistence(auth, browserSessionPersistence);
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
