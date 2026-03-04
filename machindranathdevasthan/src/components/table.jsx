@@ -14,7 +14,7 @@ const MuiTable = (props) => {
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "10px" }}>
-      <TableContainer sx={{ maxHeight: 520 }}>
+      <TableContainer sx={{ maxHeight: 520 , minHeight:400 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>

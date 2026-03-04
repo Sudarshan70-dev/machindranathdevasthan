@@ -108,6 +108,59 @@ export const getFirstDocsFromCollection = async (
   }
 };
 
+export const getDocsByDateRange = async (
+  collectionName,
+  startDate,
+  endDate,
+  limitCount = null,
+  startAfterDoc = null,
+) => {
+  try {
+    let normalizedStartDate = new Date(startDate);
+    let normalizedEndDate = new Date(endDate);
+
+    normalizedStartDate.setHours(0, 0, 0, 0);
+    normalizedEndDate.setHours(23, 59, 59, 999);
+
+    if (normalizedStartDate > normalizedEndDate) {
+      const temp = normalizedStartDate;
+      normalizedStartDate = normalizedEndDate;
+      normalizedEndDate = temp;
+    }
+
+    const queryConstraints = [
+      where(
+        DataBaseConstant.createDate,
+        ">=",
+        Timestamp.fromDate(normalizedStartDate),
+      ),
+      where(
+        DataBaseConstant.createDate,
+        "<=",
+        Timestamp.fromDate(normalizedEndDate),
+      ),
+      orderBy(DataBaseConstant.createDate, "desc"),
+    ];
+
+    if (startAfterDoc) {
+      queryConstraints.push(startAfter(startAfterDoc));
+    }
+
+    if (limitCount) {
+      queryConstraints.push(limitFn(limitCount));
+    }
+
+    const q = query(collection(db, collectionName), ...queryConstraints);
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) return [];
+    return snapshot.docs;
+  } catch (error) {
+    console.error("Date range read failed:", error);
+    return [];
+  }
+};
+
 export const getTodaysTotalAmount = async (collectionName) => {
   try {
     const start = new Date();
@@ -163,29 +216,17 @@ export const getTodayTotalRecieptCount = async (collectonName) =>{
   }
 }
 
+export const getDocByFieldAndValue = async (
+  collectionName,
+  fieldName,
+  value,
+) => {
+  const q = query(
+    collection(db, collectionName),
+    where(fieldName, "==", value),
+  );
+  const querySnapshot = await getDocs(q);
 
-// const columns = [
-//   { id:DataBaseConstant.name, label: t("name"), minWidth: 120 ,align :"center" },
-//   { id: "address", label: t("addressField"), minWidth: 170, align :"center"  },
-//   {
-//     id: DataBaseConstant.age,
-//     label: t("age"),
-//     minWidth: 50,
-//     align: 'center',
-//     format: (value) => value.toLocaleString('en-US'),
-//   },
-//   {
-//     id: DataBaseConstant.mobileNumber,
-//     label: t("mobile"),
-//     minWidth: 100,
-//     align: 'center',
-//     format: (value) => value.toLocaleString('en-US'),
-//   },
-//   {
-//     id: DataBaseConstant.uidNo,
-//     label: t("uidNo"),
-//     minWidth: 100,
-//     align: 'center',
-//     format: (value) => value.toLocaleString('en-US'),
-//   },
-// ];
+  
+  return querySnapshot.docs;
+};

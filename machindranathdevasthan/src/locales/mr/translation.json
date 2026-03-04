@@ -267,5 +267,18 @@
   "passRegisterErrToast": "व्हीआयपी (VIP) दर्शन पास नोंदणीकृत झाला नाही.",
   "passVisitMarkToast": "भेट यशस्वीरित्या नोंदवली गेली.",
   "passVisitMarkErrToast": "भेट नोंदवणे अयशस्वी झाले.",
-  "noRecordToast": "कोणतीही नोंद आढळली नाही"
+  "noRecordToast": "कोणतीही नोंद आढळली नाही",
+
+  "cashReport": "रोख अहवाल",
+  "cashlessReport": "कॅशलेस अहवाल",
+  "itemsReport": "वस्तू अहवाल",
+  "vipPassReport": "VIP पास अहवाल",
+  "writtenBookReport": "लिखित पुस्तक अहवाल",
+  "typesOfReport": "अहवालाचे प्रकार",
+  "startDate": "सुरुवात तारीख",
+  "endDate": "शेवटची तारीख",
+  "getReport": "अहवाल मिळवा",
+  "searchRecieptPlaceholder": "पावती किंवा मोबाईल नंबर प्रविष्ट करा",
+  "recieptNo": "पावती क्रमांक",
+  "donationType": "देणगीचा प्रकार"
 }

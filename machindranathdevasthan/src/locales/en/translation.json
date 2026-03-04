@@ -260,6 +260,19 @@
   "passVisitMarkErrToast" : "Mark as visit unsuccesfull.",
   "noRecordToast" : "No Record Found",
 
+  "cashReport": "Cash Report",
+  "cashlessReport" :"Cashless Report",
+  "itemsReport" :"Items Report",
+  "vipPassReport" : "VIP Pass Report",
+  "writtenBookReport" : "Written Books Report",
+  "typesOfReport" : "Types of Report",
+  "startDate" : "Start Date",
+  "endDate" : "End Date",
+  "getReport" :"Get Report",
+  "searchRecieptPlaceholder" :"Enter Reciept or Mobile number",
+  "recieptNo" : "Reciept No",
+  "donationType" : "Donation Type",
+
 
   "monthly" : "Monthly",
   "yearly" :"Yearly",

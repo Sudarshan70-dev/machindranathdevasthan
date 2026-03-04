@@ -267,5 +267,18 @@
   "passRegisterErrToast": "VIP दर्शन पास पंजीकृत नहीं हुआ।",
   "passVisitMarkToast": "उपस्थिति सफलतापूर्वक दर्ज की गई।",
   "passVisitMarkErrToast": "उपस्थिति दर्ज करना असफल रहा।",
-  "noRecordToast": "कोई रिकॉर्ड नहीं मिला"
+  "noRecordToast": "कोई रिकॉर्ड नहीं मिला",
+
+  "cashReport": "नकद रिपोर्ट",
+  "cashlessReport": "कैशलेस रिपोर्ट",
+  "itemsReport": "वस्तु रिपोर्ट",
+  "vipPassReport": "VIP पास रिपोर्ट",
+  "writtenBookReport": "लिखित पुस्तक रिपोर्ट",
+  "typesOfReport": "रिपोर्ट के प्रकार",
+  "startDate": "आरंभ तिथि",
+  "endDate": "अंतिम तिथि",
+  "getReport": "रिपोर्ट प्राप्त करें",
+  "searchRecieptPlaceholder": "रसीद या मोबाइल नंबर दर्ज करें",
+  "recieptNo": "रसीद संख्या",
+  "donationType": "दान का प्रकार"
 }

@@ -17,6 +17,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import TrusteeDashboard from "./pages/trusteeDashboard";
 import CashDonation from "./pages/cashDonation";
 import Dashboard from "./pages/dashboard";
+import VipPassCheck from "./pages/vipPassCheck";
+import VolunteersList from "./pages/volunteersList";
+import Reports from "./pages/reports";
 
 const Main = () => {
   const location = useLocation();
@@ -49,11 +52,11 @@ const Main = () => {
           >
             <Route index element={<Dashboard />} />
             <Route path="cashDonation" element={<CashDonation />} />
-            <Route path="vipPassCheck" element={<Dashboard />} />
-            <Route path="volunteerList" element={<Dashboard />} />
+            <Route path="vipPassCheck" element={<VipPassCheck />} />
+            <Route path="volunteerList" element={<VolunteersList />} />
             <Route path="writtenReciptCollection" element={<Dashboard />} />
             <Route path="eventAlert" element={<Dashboard />} />
-            <Route path="reports" element={<Dashboard />} />
+            <Route path="reports" element={<Reports />} />
             <Route path="*" element={<Dashboard />} />
           </Route>
         </Routes>

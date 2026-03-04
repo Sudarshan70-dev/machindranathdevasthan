@@ -56,3 +56,11 @@ export const CollectionName = {
     vipPass : "vip_pass",
 
 };
+
+export const ReportType = {
+  cashReport : "cashReport",
+  cashlessReport : "cashlessReport",
+  vipPassReport : "vipPassReport",
+  writtenBookReport: "writtenBookReport",
+  itemsReport : "itemsReport"
+}
