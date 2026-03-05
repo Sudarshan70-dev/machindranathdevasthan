@@ -16,6 +16,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Button from "../components/muiButton";
 import SearchBar from "../components/searchBar";
+import DonationReciept from "../components/reciept";
+import { toast } from "react-toastify";
 
 const Reports = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -29,6 +31,7 @@ const Reports = () => {
   const [docDataStored, setDocDataStored] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [isSearchMode, setIsSearchMode] = useState(false);
+  const [receiptData, setReceiptData] = useState();
 
     const nextCursorRef = useRef(null);
     const previousCursorRef = useRef(null);
@@ -68,57 +71,107 @@ const Reports = () => {
     setReportType(e.target.value);
   };
 
-  const columns = [
-    {
-      id: DataBaseConstant.receiptNo,
-      label: t("recieptNo"),
-      minWidth: 20,
-      align: "center",
-    },
-    {
-      id: DataBaseConstant.createDate,
-      label: t("date"),
-      minWidth: 40,
-      align: "center",
-    },
-    {
-      id: DataBaseConstant.name,
-      label: t("name"),
-      minWidth: 120,
-      align: "center",
-    },
-    {
-      id: DataBaseConstant.address,
-      label: t("addressField"),
-      minWidth: 120,
-      align: "center",
-    },
-    {
-      id: DataBaseConstant.ammount,
-      label: t("amount"),
-      minWidth: 50,
-      align: "center",
-      format: (value) => value.toLocaleString("en-US"),
-    },
-    {
-      id: DataBaseConstant.mobileNumber,
-      label: t("mobile"),
-      minWidth: 70,
-      align: "center",
-      format: (value) => value.toLocaleString("en-US"),
-    },
-    {
-      id: DataBaseConstant.donationType,
-      label: t("donationType"),
-      minWidth: 70,
-      align: "center",
-      format: (value) => value.toLocaleString("en-US"),
-    },
-  ];
+
+
+  const getColumsName =()=>{
+
+    const baseColumns = [
+      {
+        id: DataBaseConstant.receiptNo,
+        label: t("recieptNo"),
+        minWidth: 20,
+        align: "center",
+      },
+      {
+        id: DataBaseConstant.createDate,
+        label: t("date"),
+        minWidth: 90,
+        align: "center",
+      },
+      {
+        id: DataBaseConstant.name,
+        label: t("name"),
+        minWidth: 150,
+        align: "center",
+      },
+      {
+        id: DataBaseConstant.address,
+        label: t("addressField"),
+        minWidth: 150,
+        align: "center",
+      },
+      {
+        id: DataBaseConstant.ammount,
+        label: t("amount"),
+        minWidth: 50,
+        align: "center",
+      },
+      {
+        id: DataBaseConstant.mobileNumber,
+        label: t("mobile"),
+        minWidth: 70,
+        align: "center",
+      },
+      {
+        id: DataBaseConstant.donationType,
+        label: t("donationType"),
+        minWidth: 70,
+        align: "center",
+      },
+      {
+        id: "viewReciept",
+        label: t("viewReciept"),
+        minWidth: 70,
+        align: "center",
+      },
+    ];
+    
+    let columns = [...baseColumns];
+    
+    if (reportType === ReportType.itemsReport) {
+      const amountIndex = columns.findIndex(
+        (col) => col.id === DataBaseConstant.ammount
+      );
+    
+      if (amountIndex !== -1) {
+        // Remove amount
+        columns.splice(amountIndex, 1);
+    
+        // Add itemName and itemQty at same position
+        columns.splice(amountIndex, 0,
+          {
+            id: DataBaseConstant.itemName,
+            label: t("itemName"),
+            minWidth: 120,
+            align: "center",
+          },
+          {
+            id: DataBaseConstant.itemQty,
+            label: t("itemQty"),
+            minWidth: 80,
+            align: "center",
+          }
+        );
+      }
+    }
+
+    return columns;
+  }
+
+
+
+
+  const columns = getColumsName ();
+
+
+
 
 
 useEffect(() => {
       loadInitialPage(rowsPerPage);
+      if(docDataStored.length === 0){
+      toast.error(t("noRecordToast"));
+    }
     }, []);
 
   const formatTimestampToDate = (value) => {
@@ -298,13 +351,16 @@ useEffect(() => {
   const handleGetReport =()=>{
     setIsSearchMode(false);
     loadInitialPage(rowsPerPage);
+    if(docDataStored.length === 0){
+      toast.error(t("noRecordToast"));
+    }
   }
 
   const handleCancle =()=>{
   
     setReportType(ReportType.cashReport);
-    setStartDate();
-    setEndDate();
+    setStartDate(null);
+    setEndDate(null);
     setSearchValue("");
     setIsSearchMode(false);
     setDocDataStored(fullRowsRef.current);
@@ -400,6 +456,12 @@ useEffect(() => {
 
   }
 
+  const handleViewReciept = (data)=>{
+    console.log("handleViewReciept is clicked ----> ",data);
+    setReceiptData(data);
+
+  }
+
   return (
     <>
       <LoaderOverlay isLoading={isLoading} />
@@ -484,10 +546,13 @@ useEffect(() => {
                 docCount={docDataStored.length}
                 handleChangePage={handleChangePage}
                 handleChangeRowsPerPage={handleChangeRowsPerPage}
+                handleViewReciept = {handleViewReciept}
               ></MuiTable>
             </div>
+
           </div>
         </div>
+    {receiptData && <DonationReciept data={receiptData} />}
       </motion.div>
     </>
   );

@@ -91,7 +91,7 @@ const DevasthanReceipt = ({ data }) => {
             </div>
             <div className="header-meta">
               <p>
-                दिनांक: <span className="data-highlight">{formattedDate}</span>
+                दिनांक: <span className="data-highlight">{data[DataBaseConstant.createDate] || formattedDate}</span>
               </p>
               <p>
                 पावती नं: <span className="data-highlight">{data[DataBaseConstant.receiptNo]}</span>
