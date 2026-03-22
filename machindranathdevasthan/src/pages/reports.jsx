@@ -32,28 +32,44 @@ const Reports = () => {
   const [searchValue, setSearchValue] = useState("");
   const [isSearchMode, setIsSearchMode] = useState(false);
   const [receiptData, setReceiptData] = useState();
+  const [reportReloadKey, setReportReloadKey] = useState(0);
 
-    const nextCursorRef = useRef(null);
-    const previousCursorRef = useRef(null);
-    const canFetchMoreRef = useRef(true);
-    const requestInProgressRef = useRef(false);
-    const fullRowsRef = useRef([]);
+  const nextCursorRef = useRef(null);
+  const previousCursorRef = useRef(null);
+  const canFetchMoreRef = useRef(true);
+  const requestInProgressRef = useRef(false);
+  const fullRowsRef = useRef([]);
+
+  const resetReportRows = () => {
+    nextCursorRef.current = null;
+    previousCursorRef.current = null;
+    canFetchMoreRef.current = true;
+    fullRowsRef.current = [];
+    setDocDataStored([]);
+    setRowsData([]);
+    setPage(0);
+  };
 
   const getCollectionByReportType = (type) => {
     if (type === ReportType.cashReport) return CollectionName.cashDonation;
     if (type === ReportType.vipPassReport) return CollectionName.vipPass;
     if (type === ReportType.itemsReport) return CollectionName.itemDonation;
-    return CollectionName.volunteers;
+    if (type === ReportType.writtenBookReport) return CollectionName.writtenBillBooks
   };
 
   const hasDateRange = Boolean(startDate && endDate);
 
   const getReportDocs = async (limitCount, startAfterDoc = null) => {
+    console.log("report type in getReportDoc ----------> ",reportType)
     const collectionName = getCollectionByReportType(reportType);
 
     if (hasDateRange) {
-      const start = typeof startDate?.toDate === "function" ? startDate.toDate() : startDate;
-      const end = typeof endDate?.toDate === "function" ? endDate.toDate() : endDate;
+      const start =
+        typeof startDate?.toDate === "function"
+          ? startDate.toDate()
+          : startDate;
+      const end =
+        typeof endDate?.toDate === "function" ? endDate.toDate() : endDate;
 
       return getDocsByDateRange(
         collectionName,
@@ -64,17 +80,21 @@ const Reports = () => {
       );
     }
 
-    return getFirstDocsFromCollection(collectionName, limitCount, startAfterDoc);
+    return getFirstDocsFromCollection(
+      collectionName,
+      limitCount,
+      startAfterDoc,
+    );
   };
 
-  const handleReportType = (e) => {
+  const handleReportType = async(e) => {
+    console.log("report type change ----> ",e.target.value)
+    resetReportRows();
+    setIsSearchMode(false);
     setReportType(e.target.value);
   };
 
-
-
-  const getColumsName =()=>{
-
+  const getColumsName = () => {
     const baseColumns = [
       {
         id: DataBaseConstant.receiptNo,
@@ -125,20 +145,22 @@ const Reports = () => {
         align: "center",
       },
     ];
-    
+
     let columns = [...baseColumns];
-    
+
     if (reportType === ReportType.itemsReport) {
       const amountIndex = columns.findIndex(
-        (col) => col.id === DataBaseConstant.ammount
+        (col) => col.id === DataBaseConstant.ammount,
       );
-    
+
       if (amountIndex !== -1) {
         // Remove amount
         columns.splice(amountIndex, 1);
-    
+
         // Add itemName and itemQty at same position
-        columns.splice(amountIndex, 0,
+        columns.splice(
+          amountIndex,
+          0,
           {
             id: DataBaseConstant.itemName,
             label: t("itemName"),
@@ -150,29 +172,49 @@ const Reports = () => {
             label: t("itemQty"),
             minWidth: 80,
             align: "center",
-          }
+          },
         );
       }
     }
 
-    return columns;
-  }
-
-
-
-
-  const columns = getColumsName ();
-
-
-
-
-
-useEffect(() => {
-      loadInitialPage(rowsPerPage);
-      if(docDataStored.length === 0){
-      toast.error(t("noRecordToast"));
+    /** add coloums for written bill books report it may caontains counter no, date, bill book amt, bill book opening cloasing no, amount,  */
+    if (reportType === ReportType.writtenBookReport) {
+      columns = [
+      {
+        id: DataBaseConstant.counterNo,
+        label: t("counterNo"),
+        minWidth: 20,
+        align: "center",
+      },
+      {
+        id: DataBaseConstant.startDate,
+        label: t("startDate"),
+        minWidth: 90,
+        align: "center",
+      },
+      {
+        id: DataBaseConstant.endDate,
+        label: t("endDate"),
+        minWidth: 90,
+        align: "center",
+      },
+      {
+        id: DataBaseConstant.totalAmt,
+        label: t("totalAmt"),
+        minWidth: 70,
+        align: "center",
+      },
+    ];
     }
-    }, []);
+
+    return columns;
+  };
+
+  const columns = getColumsName();
+
+  useEffect(() => {
+    loadInitialPage(rowsPerPage);
+  }, [reportType, reportReloadKey]);
 
   const formatTimestampToDate = (value) => {
     if (!value) return "";
@@ -197,9 +239,20 @@ useEffect(() => {
   };
 
   const mapDocsToRows = (docSnapshots) => {
-      return docSnapshots.map((doc) => {
-        const docData = doc.data();
+    return docSnapshots.map((doc) => {
+      const docData = doc.data();
 
+
+      if(reportType === ReportType.writtenBookReport){
+        console.log("doc data is ---> ",docData)
+        return{
+          id: doc.id,
+          ...docData,
+          [DataBaseConstant.startDate] : formatTimestampToDate(docData[DataBaseConstant.startDate]),
+          [DataBaseConstant.endDate] : formatTimestampToDate(docData[DataBaseConstant.endDate])
+        }
+      }else{
+        console.log("in else docData is ----> ",docData);
         return {
           id: doc.id,
           ...docData,
@@ -207,82 +260,84 @@ useEffect(() => {
             docData[DataBaseConstant.createDate],
           ),
         };
-      });
-    };
-  
-    const setVisibleRowsForPage = (targetPage, sourceData, pageSize) => {
-      const startIndex = targetPage * pageSize;
-      const visibleRows = sourceData.slice(startIndex, startIndex + pageSize);
-  
-      setRowsData(visibleRows);
-      previousCursorRef.current = visibleRows.length > 0 ? visibleRows[0].id : null;
-      return visibleRows;
-    };
-  
-    const loadInitialPage = async (pageSize) => {
-      if (requestInProgressRef.current) return;
-  
-      requestInProgressRef.current = true;
-      setIsLoading(true);
-      let firstBatch = [];
-      try {
-        firstBatch = await getReportDocs(pageSize + 1);
-
-  
-        const mappedRows = mapDocsToRows(firstBatch);
-  
-        nextCursorRef.current = firstBatch.length > 0 ? firstBatch[firstBatch.length - 1] : null;
-        canFetchMoreRef.current = firstBatch.length === pageSize + 1;
-        fullRowsRef.current = mappedRows;
-        setIsSearchMode(false);
-        setDocDataStored(mappedRows);
-        setPage(0);
-        setVisibleRowsForPage(0, mappedRows, pageSize);
-      } finally {
-        requestInProgressRef.current = false;
-        setIsLoading(false);
       }
-    };
-  
-    const fetchMissingData = async (targetPage, pageSize) => {
-      const requiredCount = (targetPage + 1) * pageSize;
-      let allRows = [...docDataStored];
-      let localNextCursor = nextCursorRef.current;
-      let canFetchMore = canFetchMoreRef.current;
-  
-      while (allRows.length < requiredCount && canFetchMore) {
-        const nextBatch = await getReportDocs(pageSize, localNextCursor);
-  
-        if (nextBatch.length === 0) {
-          canFetchMore = false;
-          break;
+    });
+  };
+
+  const setVisibleRowsForPage = (targetPage, sourceData, pageSize) => {
+    const startIndex = targetPage * pageSize;
+    const visibleRows = sourceData.slice(startIndex, startIndex + pageSize);
+
+    setRowsData(visibleRows);
+    previousCursorRef.current =
+      visibleRows.length > 0 ? visibleRows[0].id : null;
+    return visibleRows;
+  };
+
+  const loadInitialPage = async (pageSize) => {
+    if (requestInProgressRef.current) return;
+
+    requestInProgressRef.current = true;
+    setIsLoading(true);
+    let firstBatch = [];
+    try {
+      firstBatch = await getReportDocs(pageSize + 1);
+
+      const mappedRows = mapDocsToRows(firstBatch);
+
+      nextCursorRef.current =
+        firstBatch.length > 0 ? firstBatch[firstBatch.length - 1] : null;
+      canFetchMoreRef.current = firstBatch.length === pageSize + 1;
+      fullRowsRef.current = mappedRows;
+      setIsSearchMode(false);
+      setDocDataStored(mappedRows);
+      setPage(0);
+      setVisibleRowsForPage(0, mappedRows, pageSize);
+    } catch (e) {
+      console.error("error while geting report data-> ", e);
+      toast.error(t("noRecordToast"));
+    } finally {
+      requestInProgressRef.current = false;
+      setIsLoading(false);
+      console.log("doc data stored is 0------> ",docDataStored)
+    }
+  };
+
+  const fetchMissingData = async (targetPage, pageSize) => {
+    const requiredCount = (targetPage + 1) * pageSize;
+    let allRows = [...docDataStored];
+    let localNextCursor = nextCursorRef.current;
+    let canFetchMore = canFetchMoreRef.current;
+
+    while (allRows.length < requiredCount && canFetchMore) {
+      const nextBatch = await getReportDocs(pageSize, localNextCursor);
+
+      if (nextBatch.length === 0) {
+        canFetchMore = false;
+        break;
+      }
+
+      localNextCursor = nextBatch[nextBatch.length - 1];
+      const existingIds = new Set(allRows.map((row) => row.id));
+      const mappedRows = mapDocsToRows(nextBatch);
+
+      mappedRows.forEach((row) => {
+        if (!existingIds.has(row.id)) {
+          allRows.push(row);
+          existingIds.add(row.id);
         }
-  
-        localNextCursor = nextBatch[nextBatch.length - 1];
-        const existingIds = new Set(allRows.map((row) => row.id));
-        const mappedRows = mapDocsToRows(nextBatch);
-  
-        mappedRows.forEach((row) => {
-          if (!existingIds.has(row.id)) {
-            allRows.push(row);
-            existingIds.add(row.id);
-          }
-        });
-  
-        canFetchMore = nextBatch.length === pageSize;
-      }
-  
-      nextCursorRef.current = localNextCursor;
-      canFetchMoreRef.current = canFetchMore;
-      fullRowsRef.current = allRows;
-      setDocDataStored(allRows);
-  
-      return allRows;
-    };
-  
+      });
 
+      canFetchMore = nextBatch.length === pageSize;
+    }
 
+    nextCursorRef.current = localNextCursor;
+    canFetchMoreRef.current = canFetchMore;
+    fullRowsRef.current = allRows;
+    setDocDataStored(allRows);
 
+    return allRows;
+  };
 
   const handleChangePage = async (_event, newPage) => {
     if (requestInProgressRef.current) return;
@@ -347,33 +402,32 @@ useEffect(() => {
     await loadInitialPage(number);
   };
 
-
-  const handleGetReport =()=>{
+  const handleGetReport = async() => {
     setIsSearchMode(false);
-    loadInitialPage(rowsPerPage);
-    if(docDataStored.length === 0){
-      toast.error(t("noRecordToast"));
-    }
-  }
+    await loadInitialPage(rowsPerPage);
+  };
 
-  const handleCancle =()=>{
-  
-    setReportType(ReportType.cashReport);
+  const handleCancle = async () => {
     setStartDate(null);
     setEndDate(null);
     setSearchValue("");
     setIsSearchMode(false);
-    setDocDataStored(fullRowsRef.current);
-    setPage(0);
-    setVisibleRowsForPage(0, fullRowsRef.current, rowsPerPage);
-  }
+    setReceiptData(null);
+    resetReportRows();
 
+    if (reportType === ReportType.cashReport) {
+      setReportReloadKey((previous) => previous + 1);
+      return;
+    }
 
-  const handleSearch = (e)=>{
+    setReportType(ReportType.cashReport);
+  };
+
+  const handleSearch = (e) => {
     setSearchValue(e.target.value);
-  }
+  };
 
-  const handleSearchClick = async()=>{
+  const handleSearchClick = async () => {
     const normalizedSearch = String(searchValue ?? "").trim();
 
     if (!normalizedSearch) {
@@ -386,10 +440,16 @@ useEffect(() => {
 
     const searchText = normalizedSearch.toLowerCase();
     const localMatches = fullRowsRef.current.filter((row) => {
-      const receiptNo = String(row[DataBaseConstant.receiptNo] ?? "").toLowerCase();
-      const mobileNumber = String(row[DataBaseConstant.mobileNumber] ?? "").toLowerCase();
+      const receiptNo = String(
+        row[DataBaseConstant.receiptNo] ?? "",
+      ).toLowerCase();
+      const mobileNumber = String(
+        row[DataBaseConstant.mobileNumber] ?? "",
+      ).toLowerCase();
 
-      return receiptNo.includes(searchText) || mobileNumber.includes(searchText);
+      return (
+        receiptNo.includes(searchText) || mobileNumber.includes(searchText)
+      );
     });
 
     if (localMatches.length > 0) {
@@ -407,7 +467,7 @@ useEffect(() => {
       const parsedNumber = Number(normalizedSearch);
       const shouldTryNumber = Number.isFinite(parsedNumber);
 
-      const queryPromises = [
+      let queryPromises = [
         getDocByFieldAndValue(
           collectionName,
           DataBaseConstant.receiptNo,
@@ -419,6 +479,15 @@ useEffect(() => {
           normalizedSearch,
         ),
       ];
+
+      if(reportType === ReportType.writtenBookReport){
+        queryPromises = [
+        getDocByFieldAndValue(
+          collectionName,
+          DataBaseConstant.counterNo,
+          normalizedSearch,
+        )]
+      }
 
       if (shouldTryNumber) {
         queryPromises.push(
@@ -453,14 +522,12 @@ useEffect(() => {
     } finally {
       setIsLoading(false);
     }
+  };
 
-  }
-
-  const handleViewReciept = (data)=>{
-    console.log("handleViewReciept is clicked ----> ",data);
+  const handleViewReciept = (data) => {
+    console.log("handleViewReciept is clicked ----> ", data);
     setReceiptData(data);
-
-  }
+  };
 
   return (
     <>
@@ -476,7 +543,7 @@ useEffect(() => {
         <div className="bodyContainer aboutTempleCard">
           <div>
             <div className="reportSearchAndDropdownContainer">
-              <div style={{ maxWidth: "40%" }}>
+              <div style={{ minWidth: "40%" }}>
                 <MuiDropdown
                   id="typesOfReports"
                   label={t("typesOfReport")}
@@ -507,11 +574,11 @@ useEffect(() => {
                 ></MuiDropdown>
               </div>
 
-              <SearchBar 
-              placeholder={t("searchRecieptPlaceholder")}
-              value={searchValue}
-              onChange={handleSearch}
-              onClick={handleSearchClick}
+              <SearchBar
+                placeholder={t("searchRecieptPlaceholder")}
+                value={searchValue}
+                onChange={handleSearch}
+                onClick={handleSearchClick}
               ></SearchBar>
             </div>
 
@@ -529,12 +596,8 @@ useEffect(() => {
                 />
               </LocalizationProvider>
 
-              <Button
-              onClick={handleGetReport}
-              >{t("getReport")}</Button>
-              <Button
-              onClick={handleCancle}
-              >{t("cancle")}</Button>
+              <Button onClick={handleGetReport}>{t("getReport")}</Button>
+              <Button onClick={handleCancle}>{t("cancle")}</Button>
             </div>
             <div className="centerDiv">
               <MuiTable
@@ -546,13 +609,13 @@ useEffect(() => {
                 docCount={docDataStored.length}
                 handleChangePage={handleChangePage}
                 handleChangeRowsPerPage={handleChangeRowsPerPage}
-                handleViewReciept = {handleViewReciept}
+                handleViewReciept={handleViewReciept}
+                reportType = {reportType}
               ></MuiTable>
             </div>
-
           </div>
         </div>
-    {receiptData && <DonationReciept data={receiptData} />}
+        {receiptData && <DonationReciept data={receiptData} />}
       </motion.div>
     </>
   );

@@ -20,6 +20,7 @@ import Dashboard from "./pages/dashboard";
 import VipPassCheck from "./pages/vipPassCheck";
 import VolunteersList from "./pages/volunteersList";
 import Reports from "./pages/reports";
+import WrittenRecieptBookEntry from "./pages/writtenRecieptBookEntry";
 
 const Main = () => {
   const location = useLocation();
@@ -54,7 +55,7 @@ const Main = () => {
             <Route path="cashDonation" element={<CashDonation />} />
             <Route path="vipPassCheck" element={<VipPassCheck />} />
             <Route path="volunteerList" element={<VolunteersList />} />
-            <Route path="writtenReciptCollection" element={<Dashboard />} />
+            <Route path="writtenReciptCollection" element={<WrittenRecieptBookEntry />} />
             <Route path="eventAlert" element={<Dashboard />} />
             <Route path="reports" element={<Reports />} />
             <Route path="*" element={<Dashboard />} />

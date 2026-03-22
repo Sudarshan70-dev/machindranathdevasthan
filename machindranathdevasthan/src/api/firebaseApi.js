@@ -32,3 +32,12 @@ export const vipPassCreation = async (data) =>{
   return responce.json();
 }
 
+
+export const billBookEntry = async (data) =>{
+  const responce = await fetch(`${BASE_URL}/billBookEntry`,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(data),
+  })
+  return responce.json();
+}

@@ -445,21 +445,6 @@
     box-shadow: 0 15px 40px rgba(0,0,0,0.15);
 }
 
-.trusteeAuthSwitch{
-    margin-top: 12px;
-    color: #7F1D1D;
-}
-
-.trusteeAuthLink{
-    color: #FF7700;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.trusteeAuthLink:hover{
-    text-decoration: underline;
-}
-
 @media (max-width: 768px){
     .videoFrame{
         width: 92%;
@@ -772,4 +757,23 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+}
+
+.amountBox{
+    width:100px;
+    height:50px; 
+    border :2px solid #3498db;
+    border-radius:20px;
+    margin: 10px;
+}
+
+.totalAmountBox{
+    width:150px;
+    height:38px; 
+    border :2px solid #3498db;
+    border-radius:20px;
+    margin: 10px;
+   display: flex;
+   align-items: center;
+   padding: 10px;
 }

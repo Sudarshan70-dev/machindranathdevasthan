@@ -38,6 +38,15 @@ export const DataBaseConstant = {
   receiptNo: "receipt_no",
   isVisited : "isVisited",
   visitDate : "visit_date",
+  bookAmt : "bookAmt",
+  openingReceipt : "opening_receipt",
+  closingReceipt : "closing_receipt",
+  counterNo : "counterNo",
+  bookNo : "bookNo",
+  totalAmt : "total_amt",
+  books : "books",
+  startDate : "start_date",
+  endDate : "end_date",
 
 }
 
@@ -54,6 +63,8 @@ export const CollectionName = {
     cashDonation : "cash_donation",
     itemDonation : "item_donation",
     vipPass : "vip_pass",
+    writtenBillBooks : "written_bill_books",
+
 
 };
 
@@ -64,3 +75,8 @@ export const ReportType = {
   writtenBookReport: "writtenBookReport",
   itemsReport : "itemsReport"
 }
+
+
+export const WrittenBillBooks = [
+    10, 20, 50, 100, 200, 500, 1000,
+  ]

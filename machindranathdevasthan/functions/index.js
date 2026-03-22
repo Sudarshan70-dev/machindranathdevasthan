@@ -29,6 +29,7 @@ const cors = require("cors")({ origin: true });
 const { registerVolunteer } = require("./src/routes/volunteer");
 const { addCashItemDonation } = require("./src/routes/donations");
 const { vipPassCreation } = require("./src/routes/vipPass");
+const { billBookEntry } = require("./src/routes/billBookEntry");
 if (!admin.apps.length) {
   admin.initializeApp();
 }
@@ -78,5 +79,26 @@ exports.vipPassCreation = functions
       }
 
       return vipPassCreation(req, res);
+    });
+  });
+
+exports.billBookEntry = functions
+  .region("asia-south1")
+  .https.onRequest((req, res) => {
+    cors(req, res, async () => {
+      if (req.method === "OPTIONS") {
+        return res.status(200).send("");
+      }
+
+      if (req.method !== "POST") {
+        return res.status(405).json({ message: "Method not allowed" });
+      }
+
+      try {
+        return await billBookEntry(req, res);
+      } catch (error) {
+        console.error("Unhandled billBookEntry error", error);
+        return res.status(500).json({ message: "Internal server error" });
+      }
     });
   });

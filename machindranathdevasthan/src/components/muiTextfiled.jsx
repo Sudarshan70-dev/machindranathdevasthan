@@ -21,6 +21,7 @@ const MuiTextField = (props) => {
           fontFamily: '"Josefin Sans", sans-serif',
         },
       }}
+      {...props}
     />
   );
 };
