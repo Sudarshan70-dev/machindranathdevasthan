@@ -280,5 +280,27 @@
   "getReport": "रिपोर्ट प्राप्त करें",
   "searchRecieptPlaceholder": "रसीद या मोबाइल नंबर दर्ज करें",
   "recieptNo": "रसीद संख्या",
-  "donationType": "दान का प्रकार"
+  "donationType": "दान का प्रकार",
+  "viewReciept": "रसीद देखें",
+
+   "billBookAmt": "बिल बुक राशि",
+  "noOfReciepts": "रसीदों की संख्या",
+  "biilBookNo": "बिल बुक नंबर",
+  "totalAmt": "कुल राशि",
+  "openingRecieptNo": "प्रारंभिक रसीद नंबर",
+  "closeingRecieptNo": "अंतिम रसीद नंबर",
+  "addBillBook": "बिल बुक जोड़ें",
+  "removeBillBook": "बिल बुक हटाएं",
+  "wrongClosingBookNo": "अंतिम रसीद नंबर, प्रारंभिक रसीद नंबर से बड़ा या बराबर होना चाहिए",
+  "tableNo": "टेबल नंबर",
+  "writtenBillBookEntrySuccess": "बिल बुक एंट्री सफलतापूर्वक जोड़ दी गई।",
+  "writtenBillBookEntryError": "कुछ गलत हो गया।",
+  "clear": "साफ करें",
+  "counterNo": "काउंटर नंबर",
+  "startDate": "प्रारंभ तिथि",
+  "endDate": "समाप्ति तिथि",
+  "vipPassManage": "वीआईपी पास प्रबंधन",
+  "eventManage": "इवेंट प्रबंधन",
+  "vipPassDateUpdateSuccess": "वीआईपी पास तिथि सफलतापूर्वक अपडेट हुई।",
+  "eventUpdateSuccess": "इवेंट जानकारी सफलतापूर्वक जोड़ दी गई।"
 }
