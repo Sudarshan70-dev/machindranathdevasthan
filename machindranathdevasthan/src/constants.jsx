@@ -47,7 +47,9 @@ export const DataBaseConstant = {
   books : "books",
   startDate : "start_date",
   endDate : "end_date",
-
+  vipPassAmount : "vip_pass_amt",
+  eventName : "event_name",
+  eventDesc : "event_description",
 }
 
 export const DonationType ={ 
@@ -64,8 +66,8 @@ export const CollectionName = {
     itemDonation : "item_donation",
     vipPass : "vip_pass",
     writtenBillBooks : "written_bill_books",
-
-
+    eventManage : "event_manage",
+    vipPassDateDocId : "vipPassDateDocId"
 };
 
 export const ReportType = {

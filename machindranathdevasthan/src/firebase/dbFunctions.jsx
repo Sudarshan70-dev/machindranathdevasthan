@@ -12,7 +12,8 @@ import {
   sum,
   getCountFromServer,
   limit as limitFn,
-  startAfter
+  startAfter,
+  setDoc
 } from "firebase/firestore";
 import { db } from "../firebase/firestore";
 import { CollectionName, DataBaseConstant } from "../constants";
@@ -230,3 +231,18 @@ export const getDocByFieldAndValue = async (
   
   return querySnapshot.docs;
 };
+
+
+export const updateVipPassDate = async(data)=>{
+
+  const docRef = doc(db,CollectionName.eventManage,CollectionName.vipPassDateDocId)
+
+  await setDoc(docRef,data,{merge:true});
+}
+
+export const updateEventDate = async(data,eventName)=>{
+
+  const docRef = doc(db,CollectionName.eventManage,eventName)
+
+  await setDoc(docRef,data,{merge:true});
+}
