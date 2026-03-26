@@ -13,7 +13,8 @@ import {
   getCountFromServer,
   limit as limitFn,
   startAfter,
-  setDoc
+  setDoc,
+  getDoc
 } from "firebase/firestore";
 import { db } from "../firebase/firestore";
 import { CollectionName, DataBaseConstant } from "../constants";
@@ -245,4 +246,13 @@ export const updateEventDate = async(data,eventName)=>{
   const docRef = doc(db,CollectionName.eventManage,eventName)
 
   await setDoc(docRef,data,{merge:true});
+}
+
+export const getDocFromId  = async (collectionName,docId) =>{
+  const q = query(doc(db,collectionName,docId))
+
+  const querySnapshot = await getDoc(q);
+  
+  return querySnapshot.data();
+
 }

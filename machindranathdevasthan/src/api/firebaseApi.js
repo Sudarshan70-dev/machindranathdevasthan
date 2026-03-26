@@ -41,3 +41,12 @@ export const billBookEntry = async (data) =>{
   })
   return responce.json();
 }
+
+export const addOnlineDonations = async(data) =>{
+  const responce = await fetch(`${BASE_URL}/addOnlineDonations`,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(data),
+  })
+  return responce.json();
+}

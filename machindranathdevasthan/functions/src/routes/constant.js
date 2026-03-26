@@ -54,10 +54,11 @@ export const DataBaseConstant = {
 
 
 export const DonationType = {
-  donationForMandir : "Mandir Restoration",
-  gowshalaDonation : "Goshala",
-  annadanDonation : "Annadan",
+   donationForMandir : "Mandir Restoration Donation",
+  gowshalaDonation : "Gaushala Donation",
+  annadanDonation : "Annadan Donation",
   itemDonation : "Items Donation",
+  vipPass : "VIP Darshan Pass",
 };
 
 export const CollectionName = {
@@ -66,6 +67,7 @@ export const CollectionName = {
     itemDonation : "item_donation",
     vipPass : "vip_pass",
     writtenBillBooks : "written_bill_books",
+    cashlessDonation : "cashless_donation",
 
 };
 

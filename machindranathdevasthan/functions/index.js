@@ -30,6 +30,7 @@ const { registerVolunteer } = require("./src/routes/volunteer");
 const { addCashItemDonation } = require("./src/routes/donations");
 const { vipPassCreation } = require("./src/routes/vipPass");
 const { billBookEntry } = require("./src/routes/billBookEntry");
+const { addOnlineDonations } = require("./src/routes/onlineDonation");
 if (!admin.apps.length) {
   admin.initializeApp();
 }
@@ -98,6 +99,25 @@ exports.billBookEntry = functions
         return await billBookEntry(req, res);
       } catch (error) {
         console.error("Unhandled billBookEntry error", error);
+        return res.status(500).json({ message: "Internal server error" });
+      }
+    });
+  });
+
+exports.addOnlineDonations = functions
+  .region("asia-south1")
+  .https.onRequest((req, res) => {
+    cors(req, res, async () => {
+      if (req.method === "OPTIONS") {
+        return res.status(200).send("");
+      }
+      if (req.method !== "POST") {
+        return res.status(405).json({ message: "Methos not allowed" });
+      }
+
+      try {
+        await addOnlineDonations(req, res);
+      } catch (err) {
         return res.status(500).json({ message: "Internal server error" });
       }
     });

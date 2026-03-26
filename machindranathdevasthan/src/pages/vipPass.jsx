@@ -5,7 +5,7 @@ import "../style.css";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { CollectionName, DataBaseConstant, DonationType } from "../constants";
-import { getLastDocumentFromDb } from "../firebase/dbFunctions";
+import { getDocFromId, getLastDocumentFromDb } from "../firebase/dbFunctions";
 import { vipPassCreation } from "../api/firebaseApi";
 import { toast } from "react-toastify";
 import LoaderOverlay from "../components/loaderOverlay";
@@ -24,11 +24,29 @@ const VipPass = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [receiptData, setReceiptData] = useState();
+  const [vipPassStartDate , setVipPassStartDate] = useState(null);
+  const [vipPassEndDate, setVipPassEndDate] = useState(null);
 
-  /**This will be remove after payment gateway intigreat */
   useEffect(() => {
+    /**This will be remove after payment gateway intigreat */
     alert(t("commingSoon1"));
+
+    async function fetchData() {
+      await getVipPassAmtAndDate()
+    }
+    fetchData();
   }, []);
+
+
+  /** get vip pass amount and date from db */
+  const getVipPassAmtAndDate = async () =>{
+    const vipPassStartDetails =  await getDocFromId(CollectionName.eventManage,CollectionName.vipPassDateDocId);
+   
+    setVipPassStartDate(vipPassStartDetails?.[DataBaseConstant.startDate].toDate().toLocaleString())
+    setVipPassEndDate(vipPassStartDetails?.[DataBaseConstant.endDate].toDate().toLocaleString())
+    setPassAmount(vipPassStartDetails?.[DataBaseConstant.vipPassAmount]);
+  }
+
 
   // 🔥 Handle Input Change
 
@@ -103,7 +121,13 @@ const VipPass = () => {
       const responce = await vipPassCreation(passData);
       if (responce.success) {
         toast.success(t("passRegisterToast"));
-        setReceiptData(passData)
+        const dataForReciept = {
+          ...passData,
+          [DataBaseConstant.vipPassAmount]:passAmount,
+          [DataBaseConstant.startDate] : vipPassStartDate,
+          [DataBaseConstant.endDate] : vipPassEndDate
+        }
+        setReceiptData(dataForReciept)
         handleCancel();
       } else {
         toast.error(t("passRegisterErrToast"));

@@ -9,7 +9,12 @@ import TempleVideo from "../assests/TempleVideo.mp4";
 import MuiDropdown from "../components/muiDropdown";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { ListOfStones, DataBaseConstant } from "../constants";
+import { ListOfStones, DataBaseConstant, CollectionName } from "../constants";
+import { addOnlineDonations } from "../api/firebaseApi";
+import { toast } from "react-toastify";
+import DonationReceipt from "../components/reciept";
+import LoaderOverlay from "../components/loaderOverlay";
+import { getLastDocumentFromDb } from "../firebase/dbFunctions";
 
 const DonationForStone = () => {
   const { t } = useTranslation();
@@ -25,14 +30,8 @@ const DonationForStone = () => {
   const [ammount, setAmount] = useState(0);
   const [noOfStones, setNoOfStones] = useState(1);
   const [stoneAmount, setStoneAmount] = useState(0);
-  const recieptData = {
-    [DataBaseConstant.name]: fullName,
-    [DataBaseConstant.mobileNumber]: mobileNumber,
-    [DataBaseConstant.address]: address,
-    [DataBaseConstant.donationType]: donationType,
-    [DataBaseConstant.ammount]: ammount,
-    [DataBaseConstant.noOfStones]: noOfStones,
-  };
+  const [receiptData, setReceiptData] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   /**this will be remove after payment intigration */
   useEffect(() => {
@@ -72,17 +71,73 @@ const DonationForStone = () => {
     setNoOfStones(1);
   };
 
-  const handlePayNow = () => {
-    recieptData.name = fullName;
-    recieptData.mobileNumber = mobileNumber;
-    recieptData.address = address;
-    recieptData.donationType = donationType;
-    recieptData.ammount = ammount;
-    recieptData.noOfStones = noOfStones;
+  const handlePayNow = async () => {
+    /**handle validation */
 
-    alert(t("commingSoon1"));
+    setIsLoading(true);
+    /** validation */
+
+    if (!fullName || !address || !donationType) {
+      toast.error(t("volunteerErrorToast2"));
+      setIsLoading(false);
+
+      return;
+    }
+    if (mobileNumber && mobileNumber.length !== 10) {
+      toast.error(t("volunteerErrorToast3"));
+      setIsLoading(false);
+
+      return;
+    }
+    if (!donationType) {
+      toast.error(t("paymentErrorItemName"));
+      setIsLoading(false);
+
+      return;
+    }
+
+    if (!ammount) {
+      toast.error(t("paymentErrorAmount"));
+      setIsLoading(false);
+
+      return;
+    }
+
+    // alert(t("commingSoon1"));
 
     // Logic for payment integration will be here
+    try {
+      const lastReceiptData = await getLastDocumentFromDb(
+        CollectionName.cashlessDonation,
+      );
+
+      const receiptNo = lastReceiptData[DataBaseConstant.receiptNo]
+        ? lastReceiptData[DataBaseConstant.receiptNo] + 1
+        : 1;
+
+      const recieptData = {
+        [DataBaseConstant.name]: fullName,
+        [DataBaseConstant.mobileNumber]: mobileNumber,
+        [DataBaseConstant.address]: address,
+        [DataBaseConstant.donationType]: donationType,
+        [DataBaseConstant.ammount]: ammount,
+        [DataBaseConstant.noOfStones]: noOfStones,
+        isForStone: true,
+        [DataBaseConstant.receiptNo]: receiptNo,
+      };
+
+      const responce = await addOnlineDonations(recieptData);
+      if (responce.success) {
+        toast.success(t("paymentSuccessToast"));
+        setReceiptData(recieptData);
+      } else {
+        toast.error(t("paymentErrorToast1"));
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleAddStone = () => {
@@ -106,6 +161,8 @@ const DonationForStone = () => {
       exit={{ opacity: 0, x: -80 }}
       transition={{ duration: 0.4 }}
     >
+      <LoaderOverlay isLoading={isLoading} />
+
       <div>
         <h1 className="headerTextSize centerDiv headerColor">
           {t("stoneForMandir")}
@@ -150,7 +207,7 @@ const DonationForStone = () => {
                   title={t("mobile")}
                   label={t("mobile")}
                   variant="outlined"
-                  type="number"
+                  type="text"
                   value={mobileNumber}
                   onChange={handleMobileNumber}
                 ></TextField>
@@ -202,6 +259,7 @@ const DonationForStone = () => {
             </div>
           </div>
         </div>
+        {receiptData && <DonationReceipt data={receiptData} />}
       </div>
     </motion.div>
   );

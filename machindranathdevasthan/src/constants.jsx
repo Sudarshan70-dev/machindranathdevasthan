@@ -53,9 +53,9 @@ export const DataBaseConstant = {
 }
 
 export const DonationType ={ 
-  donationForMandir : "Mandir Restoration",
-  gowshalaDonation : "Goshala",
-  annadanDonation : "Annadan",
+  donationForMandir : "Mandir Restoration Donation",
+  gowshalaDonation : "Gaushala Donation",
+  annadanDonation : "Annadan Donation",
   itemDonation : "Items Donation",
   vipPass : "VIP Darshan Pass"
 }
@@ -67,7 +67,9 @@ export const CollectionName = {
     vipPass : "vip_pass",
     writtenBillBooks : "written_bill_books",
     eventManage : "event_manage",
-    vipPassDateDocId : "vipPassDateDocId"
+    vipPassDateDocId : "vipPassDateDocId",
+    cashlessDonation : "cashless_donation",
+
 };
 
 export const ReportType = {
