@@ -20,67 +20,86 @@ export const ListOfStones = [
   { name: "आतील गाभारा दगड", amount: 11000 },
 ];
 
-
 export const DataBaseConstant = {
-  name:"full_name",
-  mobileNumber:"mobile_number",
-  address:"address",
-  donationType:"donation_type",
-  ammount:"amount",
-  noOfStones:"number_of_tones",
-  uidNo:"UID_number",
-  age:"Age",
-  vipPassAmt : 200,
-  createDate : "created_date",
-  itemDonation : "item",
-  itemName : "item_name",
-  itemQty : "item_quntity",
+  name: "full_name",
+  mobileNumber: "mobile_number",
+  address: "address",
+  donationType: "donation_type",
+  ammount: "amount",
+  noOfStones: "number_of_tones",
+  uidNo: "UID_number",
+  age: "Age",
+  vipPassAmt: 200,
+  createDate: "created_date",
+  itemDonation: "item",
+  itemName: "item_name",
+  itemQty: "item_quntity",
   receiptNo: "receipt_no",
-  isVisited : "isVisited",
-  visitDate : "visit_date",
-  bookAmt : "bookAmt",
-  openingReceipt : "opening_receipt",
-  closingReceipt : "closing_receipt",
-  counterNo : "counterNo",
-  bookNo : "bookNo",
-  totalAmt : "total_amt",
-  books : "books",
-  startDate : "start_date",
-  endDate : "end_date",
-  vipPassAmount : "vip_pass_amt",
-  eventName : "event_name",
-  eventDesc : "event_description",
-}
+  isVisited: "isVisited",
+  visitDate: "visit_date",
+  bookAmt: "bookAmt",
+  openingReceipt: "opening_receipt",
+  closingReceipt: "closing_receipt",
+  counterNo: "counterNo",
+  bookNo: "bookNo",
+  totalAmt: "total_amt",
+  books: "books",
+  startDate: "start_date",
+  endDate: "end_date",
+  vipPassAmount: "vip_pass_amt",
+  eventName: "event_name",
+  eventDesc: "event_description",
+  totalCashAmt: "total_cash_amt",
+  totalCashlessAmt: "total_cashless_amt",
+  updateAt: "update_at",
+  totalCashTransaction: "total_cash_transaction",
+  totalCashlessTransaction: "total_cashless_transaction",
+};
 
-export const DonationType ={ 
-  donationForMandir : "Mandir Restoration Donation",
-  gowshalaDonation : "Gaushala Donation",
-  annadanDonation : "Annadan Donation",
-  itemDonation : "Items Donation",
-  vipPass : "VIP Darshan Pass"
-}
-  
+export const DonationType = {
+  donationForMandir: "Mandir Restoration Donation",
+  gowshalaDonation: "Gaushala Donation",
+  annadanDonation: "Annadan Donation",
+  itemDonation: "Items Donation",
+  vipPass: "VIP Darshan Pass",
+};
+
 export const CollectionName = {
-    volunteers: "volunteers",
-    cashDonation : "cash_donation",
-    itemDonation : "item_donation",
-    vipPass : "vip_pass",
-    writtenBillBooks : "written_bill_books",
-    eventManage : "event_manage",
-    vipPassDateDocId : "vipPassDateDocId",
-    cashlessDonation : "cashless_donation",
-
+  volunteers: "volunteers",
+  cashDonation: "cash_donation",
+  itemDonation: "item_donation",
+  vipPass: "vip_pass",
+  writtenBillBooks: "written_bill_books",
+  eventManage: "event_manage",
+  vipPassDateDocId: "vipPassDateDocId",
+  cashlessDonation: "cashless_donation",
+  analytics: "analytics",
+  daily: "daily",
+  monthly: "monthly",
+  lastRunDocId: "lastRun",
 };
 
 export const ReportType = {
-  cashReport : "cashReport",
-  cashlessReport : "cashlessReport",
-  vipPassReport : "vipPassReport",
+  cashReport: "cashReport",
+  cashlessReport: "cashlessReport",
+  vipPassReport: "vipPassReport",
   writtenBookReport: "writtenBookReport",
-  itemsReport : "itemsReport"
-}
+  itemsReport: "itemsReport",
+};
 
+export const WrittenBillBooks = [10, 20, 50, 100, 200, 500, 1000];
 
-export const WrittenBillBooks = [
-    10, 20, 50, 100, 200, 500, 1000,
-  ]
+export const month = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];

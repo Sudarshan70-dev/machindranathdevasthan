@@ -1,124 +1,118 @@
+/* eslint-disable comma-dangle */
 /* eslint-disable object-curly-spacing */
 /* eslint-disable indent */
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
 
-const { setGlobalOptions } = require("firebase-functions");
+const { onRequest } = require("firebase-functions/v2/https");
+const { onSchedule } = require("firebase-functions/v2/scheduler");
+const { setGlobalOptions } = require("firebase-functions/v2");
+const logger = require("firebase-functions/logger");
 
-// For cost control, you can set the maximum number of containers that can be
-// running at the same time. This helps mitigate the impact of unexpected
-// traffic spikes by instead downgrading performance. This limit is a
-// per-function limit. You can override the limit for each function using the
-// `maxInstances` option in the function's options, e.g.
-// `onRequest({ maxInstances: 5 }, (req, res) => { ... })`.
-// NOTE: setGlobalOptions does not apply to functions using the v1 API. V1
-// functions should each use functions.runWith({ maxInstances: 10 }) instead.
-// In the v1 API, each function can only serve one request per container, so
-// this will be the maximum concurrent request count.
-setGlobalOptions({ maxInstances: 10 });
-
-const functions = require("firebase-functions/v1");
 const admin = require("firebase-admin");
 const cors = require("cors")({ origin: true });
+
 const { registerVolunteer } = require("./src/routes/volunteer");
 const { addCashItemDonation } = require("./src/routes/donations");
 const { vipPassCreation } = require("./src/routes/vipPass");
 const { billBookEntry } = require("./src/routes/billBookEntry");
 const { addOnlineDonations } = require("./src/routes/onlineDonation");
+const {
+  aggregateDailyAnalyticsHandler,
+} = require("./src/routes/calculationScheduler");
+
 if (!admin.apps.length) {
   admin.initializeApp();
 }
 
-exports.registerVolunteer = functions
-  .region("asia-south1")
-  .https.onRequest((req, res) => {
-    cors(req, res, async () => {
-      if (req.method === "OPTIONS") {
-        return res.status(200).send("");
-      }
+// ✅ Global config (v2 only)
+setGlobalOptions({
+  region: "asia-south1",
+  maxInstances: 10,
+});
 
-      if (req.method !== "POST") {
-        return res.status(405).json({ message: "Method not allowed" });
-      }
 
-      return registerVolunteer(req, res);
-    });
+// ------------------ COMMON HANDLER ------------------
+const handleRequest = (handler, functionName) => async (req, res) => {
+  cors(req, res, async () => {
+    if (req.method === "OPTIONS") {
+      logger.info("Handled CORS preflight request", { functionName });
+      return res.status(200).send("");
+    }
+
+    if (req.method !== "POST") {
+      logger.warn("Method not allowed", {
+        functionName,
+        method: req.method,
+      });
+      return res.status(405).json({ message: "Method not allowed" });
+    }
+
+    try {
+      await handler(req, res);
+    } catch (error) {
+      logger.error("Unhandled error in request handler", {
+        functionName,
+        error: error.message,
+        stack: error.stack,
+      });
+      return res.status(500).json({ message: "Internal server error" });
+    }
   });
+};
 
-exports.addCashItemDonation = functions
-  .region("asia-south1")
-  .https.onRequest((req, res) => {
-    cors(req, res, async () => {
-      if (req.method === "OPTIONS") {
-        return res.status(200).send("");
-      }
 
-      if (req.method !== "POST") {
-        return res.status(405).json({ message: "Method not allowed" });
-      }
+// ------------------ API FUNCTIONS ------------------
 
-      return addCashItemDonation(req, res);
+exports.registerVolunteer = onRequest(
+  handleRequest(registerVolunteer, "registerVolunteer")
+);
+
+exports.addCashItemDonation = onRequest(
+  handleRequest(addCashItemDonation, "addCashItemDonation")
+);
+
+exports.vipPassCreation = onRequest(
+  handleRequest(vipPassCreation, "vipPassCreation")
+);
+
+exports.billBookEntry = onRequest(
+  handleRequest(billBookEntry, "billBookEntry")
+);
+
+exports.addOnlineDonations = onRequest(
+  handleRequest(addOnlineDonations, "addOnlineDonations")
+);
+
+
+// ------------------ CRON JOB ------------------
+
+exports.aggregateDailyAnalytics = onSchedule(
+  {
+    schedule: "5 0 * * *",
+    timeZone: "Asia/Kolkata",
+  },
+  async () => {
+    logger.info("Scheduled analytics job triggered");
+    await aggregateDailyAnalyticsHandler();
+    logger.info("Scheduled analytics job completed");
+  }
+);
+
+
+// ------------------ MANUAL TRIGGER (LOCAL TEST) ------------------
+
+exports.runAnalyticsLocally = onRequest(async (req, res) => {
+  try {
+    logger.info("Manual analytics trigger invoked", {
+      method: req.method,
     });
-  });
-
-exports.vipPassCreation = functions
-  .region("asia-south1")
-  .https.onRequest((req, res) => {
-    cors(req, res, async () => {
-      if (req.method === "OPTIONS") {
-        return res.status(200).send("");
-      }
-
-      if (req.method !== "POST") {
-        return res.status(405).json({ message: "Method not allowed" });
-      }
-
-      return vipPassCreation(req, res);
+    await aggregateDailyAnalyticsHandler();
+    logger.info("Manual analytics trigger completed successfully");
+    res.send("✅ Analytics executed manually");
+  } catch (error) {
+    logger.error("Error running analytics manually", {
+      error: error.message,
+      stack: error.stack,
     });
-  });
-
-exports.billBookEntry = functions
-  .region("asia-south1")
-  .https.onRequest((req, res) => {
-    cors(req, res, async () => {
-      if (req.method === "OPTIONS") {
-        return res.status(200).send("");
-      }
-
-      if (req.method !== "POST") {
-        return res.status(405).json({ message: "Method not allowed" });
-      }
-
-      try {
-        return await billBookEntry(req, res);
-      } catch (error) {
-        console.error("Unhandled billBookEntry error", error);
-        return res.status(500).json({ message: "Internal server error" });
-      }
-    });
-  });
-
-exports.addOnlineDonations = functions
-  .region("asia-south1")
-  .https.onRequest((req, res) => {
-    cors(req, res, async () => {
-      if (req.method === "OPTIONS") {
-        return res.status(200).send("");
-      }
-      if (req.method !== "POST") {
-        return res.status(405).json({ message: "Methos not allowed" });
-      }
-
-      try {
-        await addOnlineDonations(req, res);
-      } catch (err) {
-        return res.status(500).json({ message: "Internal server error" });
-      }
-    });
-  });
+    res.status(500).send("❌ Error running analytics");
+  }
+});

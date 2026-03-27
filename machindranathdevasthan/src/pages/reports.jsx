@@ -55,6 +55,7 @@ const Reports = () => {
     if (type === ReportType.vipPassReport) return CollectionName.vipPass;
     if (type === ReportType.itemsReport) return CollectionName.itemDonation;
     if (type === ReportType.writtenBookReport) return CollectionName.writtenBillBooks
+    if (type === ReportType.cashlessReport) return CollectionName.cashlessDonation
   };
 
   const hasDateRange = Boolean(startDate && endDate);

@@ -256,3 +256,21 @@ export const getDocFromId  = async (collectionName,docId) =>{
   return querySnapshot.data();
 
 }
+
+export const getMonthlyAmtData = async ()=>{
+  const q = query(
+    collection(db,CollectionName.analytics,CollectionName.lastRunDocId,CollectionName.monthly)
+  )
+
+  const querySnapshot =await getDocs(q)
+  return querySnapshot.docs;
+}
+
+export const getDailyAmtData = async ()=>{
+  const q = query(
+    collection(db,CollectionName.analytics,CollectionName.lastRunDocId,CollectionName.daily)
+  )
+
+  const querySnapshot =await getDocs(q)
+  return querySnapshot.docs;
+}

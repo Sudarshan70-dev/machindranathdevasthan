@@ -128,7 +128,6 @@ const VipPass = () => {
           [DataBaseConstant.endDate] : vipPassEndDate
         }
         setReceiptData(dataForReciept)
-        handleCancel();
       } else {
         toast.error(t("passRegisterErrToast"));
       }

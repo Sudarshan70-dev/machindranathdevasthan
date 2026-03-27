@@ -179,7 +179,6 @@ const CashDonation = () => {
       if (responce.success) {
         toast.success(t("paymentSuccessToast"));
         setReceiptData(dataToCreate);
-        handleCancle();
       } else {
         toast.error(t("paymentErrorToast1"));
       }

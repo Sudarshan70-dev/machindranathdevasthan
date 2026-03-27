@@ -8,21 +8,29 @@
 const firestore = require("../config/admin");
 const { DataBaseConstant, CollectionName } = require("./constant");
 const { FieldValue } = require("firebase-admin/firestore");
+const logger = require("firebase-functions/logger");
 
 const db = firestore.db;
 const timeStamp = FieldValue.serverTimestamp();
 
 exports.vipPassCreation = async (req, res) => {
-  console.log("request is in cf ---> ", req.body);
-  const name = req.body[DataBaseConstant.name];
-  const mobileNumber = req.body[DataBaseConstant.mobileNumber];
-  const address = req.body[DataBaseConstant.address];
-  const age = req.body[DataBaseConstant.age];
+  logger.info("Incoming request", { body: req.body });
+  const name = req.body?.[DataBaseConstant.name];
+  const mobileNumber = req.body?.[DataBaseConstant.mobileNumber];
+  const address = req.body?.[DataBaseConstant.address];
+  const age = req.body?.[DataBaseConstant.age];
 
   if (!name || !address || !mobileNumber || !age) {
+    logger.warn("Missing required fields", {
+      name,
+      address,
+      mobileNumber,
+      age,
+    });
     return res.status(400).json({ message: "Missing fields" });
   }
   if (mobileNumber.length !== 10) {
+    logger.warn("Invalid mobile number", { mobileNumber });
     return res.status(400).json({ message: "Mobile number is invalid" });
   }
 
@@ -35,12 +43,21 @@ exports.vipPassCreation = async (req, res) => {
   };
 
   try {
+    logger.info("Saving VIP pass request", {
+      mobileNumber,
+      age,
+    });
     await db.collection(CollectionName.vipPass).add(data);
+    logger.info("VIP pass created successfully");
     return res.status(200).json({
       success: true,
       message: "vip pass create successfully",
     });
   } catch (error) {
+    logger.error("Error in vipPassCreation", {
+      error: error.message,
+      stack: error.stack,
+    });
     return res.status(400).json({ message: error.message });
   }
 };

@@ -46,7 +46,11 @@ const Donation = () => {
 
   const handleAmount = (e) => {
     const value = e.target.value.replace(/[^0-9]/g, "");
-    setAmount(value);
+    if (value) {
+      setAmount(parseInt(value));
+    } else {
+      setAmount(0);
+    }
   };
 
   const handleTypesOfDonation = (e) => {
@@ -57,7 +61,7 @@ const Donation = () => {
     setFullName("");
     setMobileNumber("");
     setAddress("");
-    setAmount("");
+    setAmount(0);
     setDonationType(DonationType.donationForMandir);
   };
 
@@ -118,7 +122,6 @@ const Donation = () => {
        if (responce.success) {
          toast.success(t("paymentSuccessToast"));
          setReceiptData(recieptData);
-         handleCancle()
        } else {
          toast.error(t("paymentErrorToast1"));
        }

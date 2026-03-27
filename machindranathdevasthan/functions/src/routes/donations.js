@@ -8,34 +8,46 @@
 const firestore = require("../config/admin");
 const { DataBaseConstant, CollectionName } = require("./constant");
 const { FieldValue } = require("firebase-admin/firestore");
+const logger = require("firebase-functions/logger");
 
 const db = firestore.db;
 const timeStamp = FieldValue.serverTimestamp();
 
 exports.addCashItemDonation = async (req, res) => {
+    logger.info("Incoming request", { body: req.body });
 
-    console.log("request is in cf ---> ", req.body);
-    const name = req.body[DataBaseConstant.name];
-    const mobileNumber = req.body[DataBaseConstant.mobileNumber];
-    const address = req.body[DataBaseConstant.address];
-    const donationType = req.body[DataBaseConstant.donationType];
-    const ammount = req.body[DataBaseConstant.ammount];
-    const itemName = req.body[DataBaseConstant.itemName];
-    const itemQty = req.body[DataBaseConstant.itemQty];
+    const name = req.body?.[DataBaseConstant.name];
+    const mobileNumber = req.body?.[DataBaseConstant.mobileNumber];
+    const address = req.body?.[DataBaseConstant.address];
+    const donationType = req.body?.[DataBaseConstant.donationType];
+    const ammount = req.body?.[DataBaseConstant.ammount];
+    const itemName = req.body?.[DataBaseConstant.itemName];
+    const itemQty = req.body?.[DataBaseConstant.itemQty];
 
     if (!name || !address || !donationType) {
+        logger.warn("Missing required fields", {
+            name,
+            address,
+            donationType,
+        });
         return res.status(400).json({ message: "Missing fields" });
     }
     if (mobileNumber && mobileNumber.length !== 10) {
+        logger.warn("Invalid mobile number", { mobileNumber });
         return res.status(400).json({ message: "Mobile number is invalid" });
     }
     if (donationType === "Items Donation") {
         if(!itemName || !itemQty){
+            logger.warn("Missing item donation details", {
+                itemName,
+                itemQty,
+            });
             return res.status(400).json({ message: "Add Item name or Item Quntity" });
         }
     }else{
         if(!ammount){
-        return res.status(400).json({ message: "Add amount" });
+            logger.warn("Missing cash donation amount");
+            return res.status(400).json({ message: "Add amount" });
         }
     }
 
@@ -44,25 +56,36 @@ exports.addCashItemDonation = async (req, res) => {
         [DataBaseConstant.createDate]: timeStamp,
     };
 
-    console.log("donation type is ----> ", donationType);
     try {
+        logger.info("Saving donation", {
+            donationType,
+            ammount,
+            itemName,
+            itemQty,
+        });
+
         if(donationType === "Items Donation"){
             await db.collection(CollectionName.itemDonation).add(data);
-            res.status(200).json({ 
+            logger.info("Item donation saved successfully");
+            return res.status(200).json({
                 success: true, 
                 message: "Item donation data save",
             });
         }else{
             await db.collection(CollectionName.cashDonation).add(data);
-            res.status(200).json({
+            logger.info("Cash donation saved successfully");
+            return res.status(200).json({
                 success: true,
                 message: "Cash donation data save",
             });
         }
 
     } catch (error) {
+        logger.error("Error in addCashItemDonation", {
+            error: error.message,
+            stack: error.stack,
+        });
         return res.status(400).json({ message: error.message });
     }
 
 };
-

@@ -50,6 +50,11 @@ export const DataBaseConstant = {
   books : "books",
   startDate : "start_date",
   endDate : "end_date",
+  totalCashAmt : "total_cash_amt",
+  totalCashlessAmt : "total_cashless_amt",
+  updateAt : "update_at",
+  totalCashTransaction : "total_cash_transaction",
+  totalCashlessTransaction : "total_cashless_transaction",
 };
 
 
@@ -68,6 +73,9 @@ export const CollectionName = {
     vipPass : "vip_pass",
     writtenBillBooks : "written_bill_books",
     cashlessDonation : "cashless_donation",
-
+    analytics :"analytics",
+    daily : "daily",
+    monthly : "monthly",
+    lastRunDocId : "lastRun",
 };
 

@@ -12,72 +12,109 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { CollectionName, DataBaseConstant } from "../constants";
-import {  getCollectoinTotalDocCount, getTodaysTotalAmount, getTodayTotalRecieptCount } from "../firebase/dbFunctions";
+import { CollectionName, DataBaseConstant, month } from "../constants";
+import {
+  getCollectoinTotalDocCount,
+  getDailyAmtData,
+  getMonthlyAmtData,
+  getTodaysTotalAmount,
+  getTodayTotalRecieptCount,
+} from "../firebase/dbFunctions";
 import LoaderOverlay from "../components/loaderOverlay";
 
 const Dashboard = () => {
   const { t } = useTranslation();
-  const [view, setView] = useState("monthly");
+  const [view, setView] = useState("daily");
   const [isLoading, setIsLoading] = useState(false);
   const [totalCashAmount, setTotalCashAmount] = useState(0);
   const [totalCashReciept, setTotalCashReciept] = useState(0);
   const [totalVipPass, setTotalVipPass] = useState(0);
   const [totalVolunteer, setTotalVolunteer] = useState(0);
-
+  const [totalCashlessAmount, setTotalCashlessAmount] = useState(0);
+  const [totalCashlessReciept, setTotalCashlessReciept] = useState(0);
+  const [dailyData, setDailyData] = useState([]);
+  const [monthlyData, setMonthlyData] = useState([]);
   const today = new Date();
 
-  const formattedDate = `${today
-    .getDate()
-    .toString()
-    .padStart(2, "0")}/${(today.getMonth() + 1)
+  const formattedDate = `${today.getDate().toString().padStart(2, "0")}/${(
+    today.getMonth() + 1
+  )
     .toString()
     .padStart(2, "0")}/${today.getFullYear()}`;
 
-  const monthlyData = [
-    { name: "Jan", cash: 12000, online: 8000 },
-    { name: "Feb", cash: 15000, online: 9000 },
-    { name: "Mar", cash: 18000, online: 11000 },
-    { name: "Apr", cash: 10000, online: 7000 },
-    { name: "May", cash: 20000, online: 15000 },
-    { name: "Jun", cash: 17000, online: 12000 },
-    { name: "Jul", cash: 22000, online: 16000 },
-    { name: "Aug", cash: 19000, online: 14000 },
-    { name: "Sep", cash: 21000, online: 17000 },
-    { name: "Oct", cash: 25000, online: 20000 },
-    { name: "Nov", cash: 23000, online: 18000 },
-    { name: "Dec", cash: 30000, online: 25000 },
-     ];
-
-  const yearlyData = [
-    { name: "2021", cash: 185000, online: 120000 },
-    { name: "2022", cash: 210000, online: 145000 },
-    { name: "2023", cash: 235000, online: 170000 },
-    { name: "2024", cash: 252000, online: 195000 },
-  ];
-
   useEffect(() => {
     getTodaysData();
+    createGraphData();
   }, []);
 
   const getTodaysData = async () => {
     setIsLoading(true);
     try {
-      
-
-      const cashDonationTotal =  await getTodaysTotalAmount(CollectionName.cashDonation);
-      const totalCashReciept = await getTodayTotalRecieptCount(CollectionName.cashDonation);
-      const totalVolunteer = await getCollectoinTotalDocCount(CollectionName.volunteers);
-      const totalVIPPass = await getCollectoinTotalDocCount(CollectionName.vipPass);
-     
+      const cashDonationTotal = await getTodaysTotalAmount(
+        CollectionName.cashDonation,
+      );
+      const totalCashReciept = await getTodayTotalRecieptCount(
+        CollectionName.cashDonation,
+      );
+      const cashlessDonationTotal = await getTodaysTotalAmount(
+        CollectionName.cashlessDonation,
+      );
+      const totalCashlessReciept = await getTodayTotalRecieptCount(
+        CollectionName.cashlessDonation,
+      );
+      const totalVolunteer = await getCollectoinTotalDocCount(
+        CollectionName.volunteers,
+      );
+      const totalVIPPass = await getCollectoinTotalDocCount(
+        CollectionName.vipPass,
+      );
 
       setTotalCashAmount(cashDonationTotal || 0);
       setTotalCashReciept(totalCashReciept || 0);
       setTotalVipPass(totalVIPPass || 0);
       setTotalVolunteer(totalVolunteer || 0);
+      setTotalCashlessReciept(totalCashlessReciept || 0);
+      setTotalCashlessAmount(cashlessDonationTotal || 0);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  /** calculate all data for graph */
+
+  const createGraphData = async () => {
+    const monthlyDataQuerySnapshotDocsArr = await getMonthlyAmtData();
+    const dailyDataQuerySnapshotDocsArr = await getDailyAmtData();
+
+    /** create an array of object of daily amount to show in graph */
+    const dailyData = dailyDataQuerySnapshotDocsArr.map((doc) => {
+      const data = doc.data();
+      const id = doc.id;
+
+      const name = id.split("-")[2];
+
+      return {
+        name: name,
+        cash: data?.[DataBaseConstant.totalCashAmt] || 0,
+        online: data?.[DataBaseConstant.totalCashlessAmt] || 0,
+      };
+    });
+    setDailyData(dailyData);
+
+    /** create an array of object of monthly amount to show in graph */
+    const monthlyData = monthlyDataQuerySnapshotDocsArr.map((doc) => {
+      const data = doc.data();
+      const id = doc.id;
+
+      const name = month[parseInt(id.split("-")[1]) - 1];
+
+      return {
+        name: name,
+        cash: data?.[DataBaseConstant.totalCashAmt] || 0,
+        online: data?.[DataBaseConstant.totalCashlessAmt] || 0,
+      };
+    });
+    setMonthlyData(monthlyData);
   };
 
   return (
@@ -98,7 +135,9 @@ const Dashboard = () => {
           </div>
 
           <div className="aboutTempleCard">
-            <div className="headerTextSize headerColor centerDiv">{t("summary")}</div>
+            <div className="headerTextSize headerColor centerDiv">
+              {t("summary")}
+            </div>
             <div className="dashboardSummaryWrapper">
               <div className="dashboardSummaryGrid">
                 <div className="dashboardSummaryCard">
@@ -110,8 +149,10 @@ const Dashboard = () => {
                 </div>
                 <div className="dashboardSummaryCard">
                   <div className="cardTextHeader">{t("onlineDonation")}</div>
-                  <div className="centerDiv">RS : 1000</div>
-                  <div className="centerDiv">100 {t("receipts")}</div>
+                  <div className="centerDiv">RS : {totalCashlessAmount}</div>
+                  <div className="centerDiv">
+                    {totalCashlessReciept} {t("receipts")}
+                  </div>
                 </div>
                 <div className="dashboardSummaryCard">
                   <div className="cardTextHeader">{t("totalVolunteer")}</div>
@@ -136,17 +177,17 @@ const Dashboard = () => {
             }}
           >
             <div>
-              <button onClick={() => setView("monthly")}>{t("monthly")}</button>
+              <button onClick={() => setView("daily")}>{t("daily")}</button>
               <button
                 onClick={() => setView("yearly")}
                 style={{ marginLeft: "10px" }}
               >
-                {t("yearly")}
+                {t("monthly")}
               </button>
             </div>
 
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={view === "monthly" ? monthlyData : yearlyData}>
+              <LineChart data={view === "daily" ? dailyData : monthlyData}>
                 <CartesianGrid
                   strokeDasharray="3 3"
                   vertical={false}
