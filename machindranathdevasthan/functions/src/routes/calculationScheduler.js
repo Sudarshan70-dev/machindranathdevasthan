@@ -8,12 +8,14 @@
 
 const firestore = require("../config/admin");
 const { DataBaseConstant, CollectionName } = require("./constant");
-const {FieldValue} = require("firebase-admin/firestore");
+const { FieldValue } = require("firebase-admin/firestore");
 const logger = require("firebase-functions/logger");
 
 const db = firestore.db;
 const analyticsCollectionRef = db.collection(CollectionName.analytics);
-const analyticsSummaryRef = analyticsCollectionRef.doc(CollectionName.lastRunDocId);
+const analyticsSummaryRef = analyticsCollectionRef.doc(
+  CollectionName.lastRunDocId,
+);
 // const timeStamp = FieldValue.serverTimestamp();
 
 const aggregateDailyAnalyticsHandler = async () => {
@@ -24,42 +26,48 @@ const aggregateDailyAnalyticsHandler = async () => {
     const metaDoc = await metaRef.get();
 
     const lastProcessedAt = metaDoc.exists ? metaDoc.data().lastProcessedAt : null;
-/** ------------ cash flow ---------------- */
-    let cashDonationDocs = db.collection(CollectionName.cashDonation)
-        .orderBy(DataBaseConstant.createDate);
+    logger.info("lastProcessedAt is ----> ", lastProcessedAt);
+
+    /** ------------ cash flow ---------------- */
+    let cashDonationDocs = db
+      .collection(CollectionName.cashDonation)
+      .orderBy(DataBaseConstant.createDate);
 
     if (lastProcessedAt) {
       cashDonationDocs = cashDonationDocs.where(
-          DataBaseConstant.createDate,
-          ">",
-          lastProcessedAt,
+        DataBaseConstant.createDate,
+        ">",
+        lastProcessedAt,
       );
     }
 
     const cashDonationDocsSnapshot = await cashDonationDocs.get();
 
+
     if (cashDonationDocsSnapshot.empty) {
       logger.info("No new cash donation transactions found");
-      return null;
     }
 
-
     /** ------------------------  cashless flow ------------------- */
-    let cashlessDonationDocs = db.collection(CollectionName.cashlessDonation)
-        .orderBy(DataBaseConstant.createDate);
+    let cashlessDonationDocs = db
+      .collection(CollectionName.cashlessDonation)
+      .orderBy(DataBaseConstant.createDate);
 
     if (lastProcessedAt) {
       cashlessDonationDocs = cashlessDonationDocs.where(
-          DataBaseConstant.createDate,
-          ">",
-          lastProcessedAt,
+        DataBaseConstant.createDate,
+        ">",
+        lastProcessedAt,
       );
     }
 
     const cashlessDonationDocsSnapshot = await cashlessDonationDocs.get();
 
     if (cashlessDonationDocsSnapshot.empty) {
-      logger.info("No new cash donation transactions found");
+      logger.info("No new cashless donation transactions found");
+    }
+    if (cashDonationDocsSnapshot.empty && cashlessDonationDocsSnapshot.empty) {
+      logger.info("No new donation transactions found");
       return null;
     }
 
@@ -102,35 +110,32 @@ const aggregateDailyAnalyticsHandler = async () => {
       const dayKey = date.toISOString().split("T")[0];
       const monthKey = dayKey.substring(0, 7);
 
-      // const hour = String(date.getHours()).padStart(2, "0");
-      // const day = dayKey.split("-")[2];
-      // const month = monthKey.split("-")[1];
 
       const dailyRef = analyticsSummaryRef
-          .collection(CollectionName.daily)
-          .doc(dayKey);
+        .collection(CollectionName.daily)
+        .doc(dayKey);
       const monthlyRef = analyticsSummaryRef
-          .collection(CollectionName.monthly)
-          .doc(monthKey);
+        .collection(CollectionName.monthly)
+        .doc(monthKey);
 
       batch.set(
-          dailyRef,
-          {
-            [DataBaseConstant.totalCashAmt]: FieldValue.increment(numericAmount),
-            [DataBaseConstant.totalCashTransaction]: FieldValue.increment(1),
-            updatedAt: FieldValue.serverTimestamp(),
-          },
-          { merge: true },
+        dailyRef,
+        {
+          [DataBaseConstant.totalCashAmt]: FieldValue.increment(numericAmount),
+          [DataBaseConstant.totalCashTransaction]: FieldValue.increment(1),
+          updatedAt: FieldValue.serverTimestamp(),
+        },
+        { merge: true },
       );
 
       batch.set(
-          monthlyRef,
-          {
-            [DataBaseConstant.totalCashAmt]: FieldValue.increment(numericAmount),
-            [DataBaseConstant.totalCashTransaction]: FieldValue.increment(1),
-            updatedAt: FieldValue.serverTimestamp(),
-          },
-          { merge: true },
+        monthlyRef,
+        {
+          [DataBaseConstant.totalCashAmt]: FieldValue.increment(numericAmount),
+          [DataBaseConstant.totalCashTransaction]: FieldValue.increment(1),
+          updatedAt: FieldValue.serverTimestamp(),
+        },
+        { merge: true },
       );
 
       processedTransactions += 1;
@@ -176,32 +181,33 @@ const aggregateDailyAnalyticsHandler = async () => {
       const dayKey = date.toISOString().split("T")[0];
       const monthKey = dayKey.substring(0, 7);
 
-
       const dailyRef = analyticsSummaryRef
-          .collection(CollectionName.daily)
-          .doc(dayKey);
+        .collection(CollectionName.daily)
+        .doc(dayKey);
       const monthlyRef = analyticsSummaryRef
-          .collection(CollectionName.monthly)
-          .doc(monthKey);
+        .collection(CollectionName.monthly)
+        .doc(monthKey);
 
       batch.set(
-          dailyRef,
-          {
-            [DataBaseConstant.totalCashlessAmt]: FieldValue.increment(numericAmount),
-            [DataBaseConstant.totalCashlessTransaction]: FieldValue.increment(1),
-            updatedAt: FieldValue.serverTimestamp(),
-          },
-          { merge: true },
+        dailyRef,
+        {
+          [DataBaseConstant.totalCashlessAmt]:
+            FieldValue.increment(numericAmount),
+          [DataBaseConstant.totalCashlessTransaction]: FieldValue.increment(1),
+          updatedAt: FieldValue.serverTimestamp(),
+        },
+        { merge: true },
       );
 
       batch.set(
-          monthlyRef,
-          {
-            [DataBaseConstant.totalCashlessAmt]: FieldValue.increment(numericAmount),
-            [DataBaseConstant.totalCashlessTransaction]: FieldValue.increment(1),
-            updatedAt: FieldValue.serverTimestamp(),
-          },
-          { merge: true },
+        monthlyRef,
+        {
+          [DataBaseConstant.totalCashlessAmt]:
+            FieldValue.increment(numericAmount),
+          [DataBaseConstant.totalCashlessTransaction]: FieldValue.increment(1),
+          updatedAt: FieldValue.serverTimestamp(),
+        },
+        { merge: true },
       );
 
       processedTransactions += 1;
@@ -213,7 +219,6 @@ const aggregateDailyAnalyticsHandler = async () => {
         latestTimestamp = createdAt;
       }
     });
-
 
     await batch.commit();
 
