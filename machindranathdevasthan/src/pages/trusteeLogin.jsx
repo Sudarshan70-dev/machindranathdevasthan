@@ -57,7 +57,7 @@ const TrusteeLogin = () => {
     if (currentUser) {
       navigate("/trusteeDashboard");
     }
-  }, [currentUser]);
+  }, [currentUser, navigate]);
 
   return (
     <motion.div
@@ -72,7 +72,7 @@ const TrusteeLogin = () => {
         <h1 className="headerTextSize centerDiv headerColor">{t("login")}</h1>
         <div className="centerDiv">
           <div className="trusteeAuthCard">
-            <div className="headerColor">{t("allFieldsRequired")}</div>
+            <div className="formStatusText">{t("allFieldsRequired")}</div>
 
             <div className="inputField">
               <TextField

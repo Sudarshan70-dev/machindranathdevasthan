@@ -198,7 +198,7 @@ const ManageEvents = () => {
 
               {vipPassSelect && (
                 <div className="reportsDateAndButtonContainer centerDiv">
-                  <div className="inputField " style={{ width: "40%" }}>
+                  <div className="inputField manageEventField">
                     <TextField
                       id="amount"
                       title={t("amount")}
@@ -213,8 +213,8 @@ const ManageEvents = () => {
               )}
 
               {eventManageCard && (
-                <div className="centerDiv">
-                  <div style={{ width: "40%", margin: "30px" }}>
+                <div className="manageEventFields">
+                  <div className="manageEventField">
                     <TextField
                       id="eventTitle"
                       title={t("eventTitle")}
@@ -225,7 +225,7 @@ const ManageEvents = () => {
                       onChange={(e) => setEventTitle(e.target.value)}
                     ></TextField>
                   </div>
-                  <div style={{ width: "40%", margin: "30px" }}>
+                  <div className="manageEventField">
                     <TextField
                       id="description"
                       title={t("description")}

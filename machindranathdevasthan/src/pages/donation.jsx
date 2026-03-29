@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import TextField from "../components/muiTextfiled";
 import Button from "../components/muiButton";
 import "../style.css";
@@ -23,11 +23,15 @@ const Donation = () => {
   const [ammount, setAmount] = useState();
   const [receiptData, setReceiptData] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const hasShownComingSoonAlert = useRef(false);
 
   /**this will be remove after payment gateway intigration */
   useEffect(() => {
-    alert(t("commingSoon1"));
-  }, []);
+    if (!hasShownComingSoonAlert.current) {
+      hasShownComingSoonAlert.current = true;
+      alert(t("commingSoon1"));
+    }
+  }, [t]);
 
   const handleFullName = (e) => {
     setFullName(e.target.value);
@@ -147,17 +151,19 @@ const Donation = () => {
           {t("donation")}
         </h1>
         <div>
-          <div className="centerDiv">
+          <div className="pageContentSplit">
             <video
               src={TempleVideo}
               controls
               loop
               autoPlay
+              muted
+              playsInline
               className="videoFrame"
             ></video>
 
             <div className="donationFormContainer">
-              <div className="headerColor">{t("allFieldsRequired")}</div>
+              <div className="formStatusText">{t("allFieldsRequired")}</div>
               <div className="inputField">
                 <TextField
                   id="fullName"

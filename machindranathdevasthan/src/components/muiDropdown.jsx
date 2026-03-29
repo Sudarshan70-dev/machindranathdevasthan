@@ -8,7 +8,7 @@ import {
 
 const MuiDropdown = (props) => {
   return (
-    <FormControl fullWidth sx={{ mb: 2 }}>
+    <FormControl fullWidth>
       
       <InputLabel
         id={`${props.id}-label`}
@@ -20,7 +20,7 @@ const MuiDropdown = (props) => {
       </InputLabel>
 
       <Select
-        labelId={`${props.id}Label`}
+        labelId={`${props.id}-label`}
         id={props.id}
         value={props.value}
         label={props.label}
@@ -28,11 +28,28 @@ const MuiDropdown = (props) => {
         required
         sx={{
           fontFamily: '"Josefin Sans", sans-serif',
+          borderRadius: "18px",
+          backgroundColor: "rgba(255,255,255,0.85)",
+          "& .MuiSelect-select": {
+            padding: "14px 16px",
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "rgba(127, 29, 29, 0.22)",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#ff7700",
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#ff7700",
+            borderWidth: "2px",
+          },
         }}
         MenuProps={{
           PaperProps: {
             sx: {
               fontFamily: '"Josefin Sans", sans-serif',
+              borderRadius: "18px",
+              mt: 1,
             },
           },
         }}

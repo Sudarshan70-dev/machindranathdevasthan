@@ -195,7 +195,7 @@ export const getCollectoinTotalDocCount = async (collectonName) =>{
   return snapshot.data().count;
 
   } catch (error) {
-    console.error("error while getTodayTotalRecieptCount --> ",error);
+    console.error("error while getCollectoinTotalDocCount --> ",error);
   }
 }
 

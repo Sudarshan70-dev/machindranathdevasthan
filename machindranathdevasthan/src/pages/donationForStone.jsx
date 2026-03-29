@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import TextField from "../components/muiTextfiled";
 import Button from "../components/muiButton";
 import "../style.css";
@@ -32,11 +32,15 @@ const DonationForStone = () => {
   const [stoneAmount, setStoneAmount] = useState(0);
   const [receiptData, setReceiptData] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const hasShownComingSoonAlert = useRef(false);
 
   /**this will be remove after payment intigration */
   useEffect(() => {
-    alert(t("commingSoon1"));
-  }, []);
+    if (!hasShownComingSoonAlert.current) {
+      hasShownComingSoonAlert.current = true;
+      alert(t("commingSoon1"));
+    }
+  }, [t]);
 
   const handleFullName = (e) => {
     setFullName(e.target.value);
@@ -168,17 +172,19 @@ const DonationForStone = () => {
           {t("stoneForMandir")}
         </h1>
         <div>
-          <div className="centerDiv">
+          <div className="pageContentSplit">
             <video
               src={TempleVideo}
               controls
               loop
               autoPlay
+              muted
+              playsInline
               className="videoFrame"
             ></video>
 
             <div className="donationFormContainer">
-              <div className="headerColor">{t("allFieldsRequired")}</div>
+              <div className="formStatusText">{t("allFieldsRequired")}</div>
               <div className="inputField">
                 <TextField
                   id="fullName"
@@ -221,8 +227,15 @@ const DonationForStone = () => {
                   options={stoneOptions}
                 ></MuiDropdown>
               </div>
-              <div className="inputField centerDiv">
-                <RemoveCircleOutlineIcon onClick={handleRemoveStone} />
+              <div className="inputField stoneCounterControl">
+                <button
+                  type="button"
+                  className="stoneCounterButton"
+                  aria-label="Decrease stone count"
+                  onClick={handleRemoveStone}
+                >
+                  <RemoveCircleOutlineIcon />
+                </button>
 
                 <TextField
                   id="noOfStone"
@@ -233,7 +246,14 @@ const DonationForStone = () => {
                   value={noOfStones}
                   disabled
                 ></TextField>
-                <AddCircleOutlineIcon onClick={handleAddStone} />
+                <button
+                  type="button"
+                  className="stoneCounterButton"
+                  aria-label="Increase stone count"
+                  onClick={handleAddStone}
+                >
+                  <AddCircleOutlineIcon />
+                </button>
               </div>
 
               <div className="inputField">

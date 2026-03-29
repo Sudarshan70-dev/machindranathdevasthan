@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import TextField from "../components/muiTextfiled";
 import Button from "../components/muiButton";
 import "../style.css";
@@ -26,16 +26,20 @@ const VipPass = () => {
   const [receiptData, setReceiptData] = useState();
   const [vipPassStartDate , setVipPassStartDate] = useState(null);
   const [vipPassEndDate, setVipPassEndDate] = useState(null);
+  const hasShownComingSoonAlert = useRef(false);
 
   useEffect(() => {
     /**This will be remove after payment gateway intigreat */
-    alert(t("commingSoon1"));
+    if (!hasShownComingSoonAlert.current) {
+      hasShownComingSoonAlert.current = true;
+      alert(t("commingSoon1"));
+    }
 
     async function fetchData() {
       await getVipPassAmtAndDate()
     }
     fetchData();
-  }, []);
+  }, [t]);
 
 
   /** get vip pass amount and date from db */

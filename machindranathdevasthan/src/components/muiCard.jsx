@@ -16,13 +16,21 @@ export default function MultiActionAreaCard(props) {
     <Card
       sx={{
         width: "100%",
-        maxWidth: 345,
+        maxWidth: 360,
         minHeight: 420,
         display: "flex",
         flexDirection: "column",
         backgroundColor: "#fbdaac",
+        borderRadius: "24px",
+        overflow: "hidden",
+        boxShadow: "0 18px 40px rgba(127, 29, 29, 0.12)",
+        transition: "transform 0.25s ease, box-shadow 0.25s ease",
         "& .MuiTypography-root": {
           fontFamily: '"Josefin Sans", sans-serif',
+        },
+        "&:hover": {
+          transform: "translateY(-6px)",
+          boxShadow: "0 24px 44px rgba(127, 29, 29, 0.18)",
         },
       }}
     >

@@ -202,7 +202,7 @@ const CashDonation = () => {
         <h1 className="headerTextSize headerColor centerDiv">
           {t("cashAndItem")}
         </h1>
-        <div className="aboutTempleCard">
+        <div className="aboutTempleCard centerDiv">
           <div className="donationFormContainer">
             <div className="inputField">
               <TextField

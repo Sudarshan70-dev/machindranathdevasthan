@@ -29,9 +29,32 @@ const MuiTable = (props) => {
   }, [rows, reportType]);
 
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "10px" }}>
-      <TableContainer sx={{ maxHeight: 520, minHeight: 400 }}>
-        <Table stickyHeader aria-label="sticky table" sx={{ '& > *': { borderBottom: 'unset' } }}>
+    <Paper
+      sx={{
+        width: "100%",
+        overflow: "hidden",
+        marginTop: "10px",
+        borderRadius: "22px",
+        boxShadow: "0 18px 40px rgba(127, 29, 29, 0.12)",
+      }}
+    >
+      <TableContainer
+        sx={{
+          maxHeight: 520,
+          minHeight: rows.length ? 320 : 220,
+          overflowX: "auto",
+        }}
+      >
+        <Table
+          stickyHeader
+          aria-label="sticky table"
+          sx={{
+            '& > *': { borderBottom: 'unset' },
+            "& .MuiTableCell-root": {
+              whiteSpace: "normal",
+            },
+          }}
+        >
           <TableHead>
             <TableRow>
               {reportType === ReportType.writtenBookReport &&<TableCell></TableCell>}

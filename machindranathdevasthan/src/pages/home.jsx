@@ -212,13 +212,13 @@ const Home = () => {
                 </a>
                 <div>
                   <a
-                    href="https://www.instagram.com/machindra_nath_dewasthan?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                    href="https://www.instagram.com/machindranath_devsthan?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                     className="contactLinks"
                   >
-                    <InstagramIcon /> @machindra_nath_dewasthan
+                    <InstagramIcon /> @machindranath_devsthan
                   </a>
                   <a
-                    href="https://www.facebook.com/profile.php?id=61581149219247&ref=PROFILE_EDIT_xav_ig_profile_page_web#"
+                    href="https://www.facebook.com/machindranathdevsthan"
                     className="contactLinks"
                   >
                     <FacebookIcon /> @श्री क्षेत्र मच्छिंद्रनाथ देवस्थान सावरगाव

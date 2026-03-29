@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const VerticalMenu = () => {
+const VerticalMenu = ({ onSelect }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -34,22 +34,25 @@ const VerticalMenu = () => {
   const handleMenuClick = (key) => {
     if (key === "dashboard") {
       navigate("/trusteeDashboard");
+      onSelect?.();
       return;
     }
 
     navigate(`/trusteeDashboard/${key}`);
+    onSelect?.();
   };
 
   return (
     <div className="verticalMenuContainer">
       {menuItems.map((item) => (
-        <div
+        <button
           key={item.key}
+          type="button"
           className={`menu ${active === item.key ? "active" : ""}`}
           onClick={() => handleMenuClick(item.key)}
         >
           {item.label}
-        </div>
+        </button>
       ))}
     </div>
   );

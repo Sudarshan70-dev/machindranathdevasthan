@@ -132,7 +132,7 @@ if (!fullName || !mobileNumber || !address || !uidNo || !age) {
 
         <div className="centerDiv">
           <div className="donationFormContainer">
-            <div className="headerColor">{t("allFieldsRequired")}</div>
+            <div className="formStatusText">{t("allFieldsRequired")}</div>
             <div className="inputField">
               <TextField
                 id="fullName"

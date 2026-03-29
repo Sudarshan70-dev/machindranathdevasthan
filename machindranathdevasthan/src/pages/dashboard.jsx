@@ -141,52 +141,57 @@ const Dashboard = () => {
             <div className="dashboardSummaryWrapper">
               <div className="dashboardSummaryGrid">
                 <div className="dashboardSummaryCard">
-                  <div className="cardTextHeader">{t("cashDonation")}</div>
+                  <div className="cardTextHeader centerDiv">{t("cashDonation")}</div>
                   <div className="centerDiv">RS : {totalCashAmount}</div>
                   <div className="centerDiv">
                     {totalCashReciept} {t("receipts")}
                   </div>
                 </div>
                 <div className="dashboardSummaryCard">
-                  <div className="cardTextHeader">{t("onlineDonation")}</div>
+                  <div className="cardTextHeader centerDiv">{t("onlineDonation")}</div>
                   <div className="centerDiv">RS : {totalCashlessAmount}</div>
                   <div className="centerDiv">
                     {totalCashlessReciept} {t("receipts")}
                   </div>
                 </div>
                 <div className="dashboardSummaryCard">
-                  <div className="cardTextHeader">{t("totalVolunteer")}</div>
+                  <div className="cardTextHeader centerDiv">{t("totalVolunteer")}</div>
                   <div className="centerDiv">{totalVolunteer}</div>
                 </div>
                 <div className="dashboardSummaryCard">
-                  <div className="cardTextHeader">{t("totalVipPasses")}</div>
+                  <div className="cardTextHeader centerDiv">{t("totalVipPasses")}</div>
                   <div className="centerDiv">{totalVipPass}</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div
-            style={{
-              width: "90%",
-              height: 400,
+          <div style={{
+              width: "min(92%, 1120px)",
+              height: 440,
               background: "#fdd7a9",
               padding: "20px",
               borderRadius: "15px",
-              marginBottom: "20px",
-            }}
-          >
-            <div>
-              <button onClick={() => setView("daily")}>{t("daily")}</button>
+              margin: "0 auto 20px",
+            }}>
+            <div className="dashboardChartToolbar">
               <button
-                onClick={() => setView("yearly")}
-                style={{ marginLeft: "10px" }}
+                type="button"
+                className={`dashboardToggleButton ${view === "daily" ? "active" : ""}`}
+                onClick={() => setView("daily")}
+              >
+                {t("daily")}
+              </button>
+              <button
+                type="button"
+                className={`dashboardToggleButton ${view === "monthly" ? "active" : ""}`}
+                onClick={() => setView("monthly")}
               >
                 {t("monthly")}
               </button>
             </div>
 
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="90%">
               <LineChart data={view === "daily" ? dailyData : monthlyData}>
                 <CartesianGrid
                   strokeDasharray="3 3"

@@ -61,13 +61,25 @@ export default function EventTable() {
       ];
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer
+      component={Paper}
+      sx={{
+        borderRadius: "22px",
+        overflowX: "auto",
+        boxShadow: "0 18px 40px rgba(127, 29, 29, 0.12)",
+      }}
+    >
       <Table
         sx={{
-          minWidth: 650,
+          minWidth: 620,
           backgroundColor: "#fbdaac",
           "& .MuiTypography-root": {
             fontFamily: '"Josefin Sans", sans-serif',
+          },
+          "& .MuiTableCell-root": {
+            borderColor: "rgba(127, 29, 29, 0.08)",
+            fontFamily: '"Josefin Sans", sans-serif',
+            whiteSpace: "normal",
           },
         }}
       >
