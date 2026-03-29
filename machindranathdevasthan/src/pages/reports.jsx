@@ -449,7 +449,7 @@ const Reports = () => {
       ).toLowerCase();
 
       return (
-        receiptNo.includes(searchText) || mobileNumber.includes(searchText)
+        receiptNo === searchText || mobileNumber === searchText
       );
     });
 
@@ -526,7 +526,6 @@ const Reports = () => {
   };
 
   const handleViewReciept = (data) => {
-    console.log("handleViewReciept is clicked ----> ", data);
     setReceiptData(data);
   };
 

@@ -43,7 +43,7 @@
     min-height: 190px;
     padding: 16px 24px 24px;
     background-color: #fbdaac;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 2px 8px #000;
     box-sizing: border-box;
 }
 .navBarTopRow{
@@ -140,7 +140,7 @@
   background-color: #D9D9D9;
   border-radius: 50%;
   flex-shrink: 0;
-  box-shadow: 0 8px 20px rgba(255, 51, 0, 0.28);
+  box-shadow: 0 2px 8px #f30;
 
 }
 
@@ -546,6 +546,8 @@
     background-color: #fbdaac;
     border-radius: 24px;
     box-shadow: 0 18px 42px rgba(127, 29, 29, 0.12);
+    margin-bottom: 20px ;
+
 }
 
 
@@ -941,6 +943,7 @@
     justify-content: center;
     align-items: stretch;
     gap: 16px;
+    margin-bottom: 20px;
 }
 
 .reportsDateAndButtonContainer{
@@ -977,7 +980,7 @@
     align-items: stretch;
     justify-content: center;
     gap: 24px;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 .formStatusText{
@@ -1307,4 +1310,29 @@
     .amount-text {
         max-width: 100%;
     }
+}
+
+.directionBtn {
+   display: inline-block;
+  padding: 10px 18px;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+  text-decoration: none;
+
+  /* Transparent Style */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+
+  transition: all 0.3s ease;
+}
+
+.directionBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(168, 0, 0, 0.3);
+}
+
+.overlayBtn {
+  position: absolute;
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import "../style.css";
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 import ImageSlider from "../components/imageSlider";
 import Galary from "../components/galary";
 import { useTranslation } from "react-i18next";
@@ -9,21 +9,20 @@ import MuiCard from "../components/muiCard";
 import FestivalCard from "../components/festivalCard";
 import EventTable from "../components/eventTable";
 import Grid from "@mui/material/Grid";
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import EmailIcon from '@mui/icons-material/Email';
-import InstagramIcon from '@mui/icons-material/Instagram';
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import EmailIcon from "@mui/icons-material/Email";
+import InstagramIcon from "@mui/icons-material/Instagram";
 import Img1 from "../assests/img1.jpg";
 import DonationImg from "../assests/donation.jpg";
 import VipPassLogo from "../assests/vipPassLogo.png";
 import MandirSeva from "../assests/mandirSeva.png";
 import PujaLogo from "../assests/pujaLogo.png";
 import { useNavigate } from "react-router-dom";
-import FacebookIcon from '@mui/icons-material/Facebook';
+import FacebookIcon from "@mui/icons-material/Facebook";
 
 const Home = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-    
 
   return (
     <motion.div
@@ -172,16 +171,28 @@ const Home = () => {
 
           {/* Location  */}
           <div className="mapAndContactContainer">
-            <div className="mapContainer">
+            <div className="mapContainer centerDiv">
               <iframe
                 title="Shri Kshetra Machindranath Samadhi Mandir Location Map"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12584.71644019487!2d75.09871197967817!3d19.128480970908935!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bdb508c9146b6ff%3A0x6895119ba73c91fd!2sShri%20Kshetra%20Machindranath%20Samadhi%20mandir%20maymba%20Sawargaon!5e1!3m2!1sen!2sin!4v1771848143279!5m2!1sen!2sin"
-                width="600"
-                height="450"
+                width="100%"
+                height="400"
+                style={{ border: 0, borderRadius: "12px" }}
                 allowFullScreen=""
                 loading="lazy"
               ></iframe>
+
+              {/* Get Directions Button */}
+              <a
+                href="https://www.google.com/maps/dir/?api=1&destination=Shri+Kshetra+Machindranath+Samadhi+Mandir+Sawargaon"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="directionBtn overlayBtn"
+              >
+                Get Directions
+              </a>
             </div>
+
             <div className="contactContainer">
               <div className="headerTextSize headerColor centerDiv">
                 {t("contactUs")}
@@ -195,7 +206,6 @@ const Home = () => {
                     <EmailIcon /> shrimachindranathdevasthan@gmail.com
                   </a>
                 </div>
-             
 
                 <div>{t("presidentName")}</div>
                 <div>{t("president")}</div>
@@ -222,11 +232,9 @@ const Home = () => {
                     className="contactLinks"
                   >
                     <FacebookIcon /> @श्री क्षेत्र मच्छिंद्रनाथ देवस्थान सावरगाव
-
                   </a>
                 </div>
               </div>
-              
             </div>
           </div>
         </div>

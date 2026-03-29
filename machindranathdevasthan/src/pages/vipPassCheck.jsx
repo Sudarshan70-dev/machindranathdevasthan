@@ -107,7 +107,7 @@ const VipPassCheck = () => {
               borderRadius: 3,
               boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
               padding: 1,
-              margin : "10px"
+              margin : "20px"
             }}
           >
             <CardContent>
