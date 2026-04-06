@@ -70,6 +70,8 @@ const Donation = () => {
   };
 
  const handlePayNow = async () => {
+     alert(t("commingSoon1"));
+    return;
      /**handle validation */
  
      setIsLoading(true);
@@ -101,7 +103,6 @@ const Donation = () => {
        return;
      }
  
-     // alert(t("commingSoon1"));
  
      // Logic for payment integration will be here
      try {

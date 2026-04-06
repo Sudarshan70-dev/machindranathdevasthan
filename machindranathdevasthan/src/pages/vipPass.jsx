@@ -102,6 +102,9 @@ const VipPass = () => {
 
   // 🔥 Submit
   const handleRegister = async () => {
+    alert(t("commingSoon1"));
+    return;
+
     if (!validate()) return;
     setIsLoading(true);
     try {
@@ -145,7 +148,6 @@ const VipPass = () => {
     }
 
 
-    // alert(t("commingSoon1"));
 
     // handleCancel();
   };
