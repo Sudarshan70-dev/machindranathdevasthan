@@ -23,6 +23,8 @@ const About = () =>{
                 <p className="headerTextSize headerColor centerDiv">
                   {t("aboutMandirTitle")}
                 </p>
+                <p className="textColor boaldText centerDiv">{t("aboutMachindranathOvi1")}</p>
+                <p className="textColor boaldText centerDiv">{t("aboutMachindranathOvi2")}</p>
                 <p className="textColor">{t("aboutMandirText1")}</p>
                 <p className="textColor">{t("aboutMandirText2")}</p>
                 <p className="textColor">{t("aboutMandirText3")}</p>
@@ -31,19 +33,54 @@ const About = () =>{
                 <p className="textColor">{t("aboutMandirText6")}</p>
                 <p className="textColor">{t("aboutMandirText7")}</p>
                 <p className="textColor">{t("aboutMandirText8")}</p>
+                <p className="textColor">{t("aboutMandirText9")}</p>
+                <p className="textColor">{t("aboutMandirText10")}</p>
+                <p className="textColor">{t("aboutMandirText11")}</p>
+                <p className="textColor">{t("aboutMandirText12")}</p>
+                <p className="textColor">{t("aboutMandirText13")}</p>
               </div>
               {/** Information about Machindranath Gad */}
               <div>
                 <p className="headerTextSize headerColor centerDiv">
                   {t("aboutMachindranathGadTitle")}
                 </p>
-                <p className="textColor boaldText">{t("aboutMachindranathGadText1")}</p>
+                <p className="textColor">{t("aboutMachindranathGadText1")}</p>
                 <p className="textColor">{t("aboutMachindranathGadText2")}</p>
                 <p className="textColor">{t("aboutMachindranathGadText3")}</p>
                 <p className="textColor">{t("aboutMachindranathGadText4")}</p>
+                <p className="textColor boaldText">{t("aboutMachindranathGadTitle1")}</p>
                 <p className="textColor">{t("aboutMachindranathGadText5")}</p>
+                <p className="textColor boaldText">{t("aboutMachindranathGadTitle2")}</p>
                 <p className="textColor">{t("aboutMachindranathGadText6")}</p>
+                 <p className="textColor boaldText">{t("aboutMachindranathGadTitle11")}</p>
+                <p className="textColor">{t("aboutMachindranathGadText23")}</p>
+                 <p className="textColor boaldText">{t("aboutMachindranathGadTitle12")}</p>
+                <p className="textColor">{t("aboutMachindranathGadText24")}</p>
+                <p className="textColor boaldText">{t("aboutMachindranathGadTitle3")}</p>
                 <p className="textColor">{t("aboutMachindranathGadText7")}</p>
+                <p className="textColor boaldText">{t("aboutMachindranathGadTitle4")}</p>
+                <p className="textColor">{t("aboutMachindranathGadText8")}</p>
+                <p className="textColor boaldText">{t("aboutMachindranathGadTitle5")}</p>
+                <p className="textColor">{t("aboutMachindranathGadText9")}</p>
+                <p className="textColor boaldText">{t("aboutMachindranathGadTitle6")}</p>
+                <p className="textColor">{t("aboutMachindranathGadText10")}</p>
+                <p className="textColor boaldText">{t("aboutMachindranathGadTitle7")}</p>
+                <p className="textColor">{t("aboutMachindranathGadText11")}</p>
+                <p className="textColor boaldText">{t("aboutMachindranathGadTitle8")}</p>
+                <p className="textColor">{t("aboutMachindranathGadText12")}</p>
+                <p className="textColor boaldText">{t("aboutMachindranathGadTitle9")}</p>
+                <p className="textColor">{t("aboutMachindranathGadText13")}</p>
+                <p className="textColor boaldText">{t("aboutMachindranathGadTitle10")}</p>
+                <p className="textColor">{t("aboutMachindranathGadText14")}</p>
+                <p className="textColor">{t("aboutMachindranathGadText15")}</p>
+                <p className="textColor boaldText">{t("aboutMachindranathGadText16")}</p>
+                <p className="textColor">{t("aboutMachindranathGadText17")}</p>
+                <p className="textColor">{t("aboutMachindranathGadText18")}</p>
+                <p className="textColor">{t("aboutMachindranathGadText19")}</p>
+                <p className="textColor">{t("aboutMachindranathGadText20")}</p>
+                <p className="textColor">{t("aboutMachindranathGadText21")}</p>
+                <p className="textColor">{t("aboutMachindranathGadText22")}</p>
+               
               </div>
               {/** Information about Festival */}
               <div>

@@ -18,6 +18,12 @@ const LANGUAGE_OPTIONS = [
 const PUBLIC_NAV_ITEMS = [
   { key: "home", labelKey: "home", path: "/" },
   { key: "about", labelKey: "about", path: "/about" },
+  {
+    key: "nathpanthAbout",
+    labelKey: "nathpanthAbout",
+    path: "/aboutNath",
+    activePaths: ["/aboutNath", "/nathpanthAbout"],
+  },
   { key: "donation", labelKey: "donation", path: "/donation" },
   {
     key: "sevaBooking",
@@ -26,6 +32,13 @@ const PUBLIC_NAV_ITEMS = [
   },
   { key: "login", labelKey: "login", path: "/trustee-login" },
 ];
+
+const isPathActive = (pathname, paths) =>
+  paths.some((path) =>
+    path === "/"
+      ? pathname === path
+      : pathname === path || pathname.startsWith(`${path}/`)
+  );
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
@@ -70,10 +83,7 @@ const Navbar = () => {
         key: item.key,
         label: t(item.labelKey),
         onClick: () => navigate(item.path),
-        isActive:
-          item.path === "/"
-            ? location.pathname === item.path
-            : location.pathname.startsWith(item.path),
+        isActive: isPathActive(location.pathname, item.activePaths ?? [item.path]),
       }));
 
   return (

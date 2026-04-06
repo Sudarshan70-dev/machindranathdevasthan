@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import Navbar from "./components/navbar";
 import Home from "./pages/home";
@@ -22,6 +22,7 @@ import VolunteersList from "./pages/volunteersList";
 import Reports from "./pages/reports";
 import WrittenRecieptBookEntry from "./pages/writtenRecieptBookEntry";
 import ManageEvents from "./pages/manageEvents";
+import AboutNath from "./pages/aboutNath";
 
 const Main = () => {
   const location = useLocation();
@@ -40,6 +41,11 @@ const Main = () => {
           />
           <Route path="/vipPass" element={<VipPass />} />
           <Route path="/about" element={<About />} />
+          <Route path="/aboutNath" element={<AboutNath />} />
+          <Route
+            path="/nathpanthAbout"
+            element={<Navigate replace to="/aboutNath" />}
+          />
           <Route path="/trustee-login" element={<TrusteeLogin />} />
           <Route path="/terms-conditions" element={<TermsAndConditions />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
